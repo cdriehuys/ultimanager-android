@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:padding="16dp"
-    tools:context="com.driehuys.chathan.ultimanager.MainActivity">
+    tools:context="com.ultimanager.WelcomeActivity">
 
     <LinearLayout
         android:gravity="center"
