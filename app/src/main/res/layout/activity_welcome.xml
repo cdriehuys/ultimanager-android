@@ -39,10 +39,21 @@
         android:layout_height="wrap_content"
         android:layout_width="0dp"
         android:text="@string/new_game"
-        app:layout_constraintBottom_toTopOf="@+id/btn_view_stats"
+        app:layout_constraintBottom_toTopOf="@+id/btn_list_players"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/welcome_text_container" />
+
+    <Button
+        android:id="@+id/btn_list_players"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:onClick="onClick"
+        android:text="@string/list_players"
+        app:layout_constraintBottom_toTopOf="@+id/btn_view_stats"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_new_game" />
 
     <Button
         android:id="@+id/btn_view_stats"
