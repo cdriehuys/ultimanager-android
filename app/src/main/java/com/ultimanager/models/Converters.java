@@ -9,7 +9,8 @@ import android.arch.persistence.room.TypeConverter;
  * The converters are used to translate between complex objects and their flat representation that
  * can be stored in a database.
  */
-class Converters {
+@SuppressWarnings("WeakerAccess")
+public class Converters {
 
     /**
      * Convert a player role into a string.
@@ -19,7 +20,7 @@ class Converters {
      * @return The provided role's string name.
      */
     @TypeConverter
-    String playerRoleToString(PlayerRole role) {
+    public String playerRoleToString(PlayerRole role) {
         return role.name();
     }
 
@@ -31,7 +32,7 @@ class Converters {
      * @return The player role constant that matches the provided name.
      */
     @TypeConverter
-    PlayerRole roleNameFromString(String roleName) {
+    public PlayerRole roleNameFromString(String roleName) {
         return PlayerRole.valueOf(roleName);
     }
 }

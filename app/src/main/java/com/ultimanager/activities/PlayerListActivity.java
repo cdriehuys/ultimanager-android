@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -36,7 +37,12 @@ public class PlayerListActivity extends AppCompatActivity {
 
         // Set up the recycler view
         recyclerView = findViewById(R.id.recycler_players);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+
+        recyclerView.addItemDecoration(
+                new DividerItemDecoration(
+                        recyclerView.getContext(), layoutManager.getOrientation()));
+        recyclerView.setLayoutManager(layoutManager);
 
         // Use our custom adapter
         recyclerViewAdapter = new PlayerRecyclerViewAdapter(new ArrayList<Player>());

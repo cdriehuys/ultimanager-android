@@ -7,5 +7,18 @@ package com.ultimanager.models;
 public enum PlayerRole {
     CUTTER,
     HANDLER,
-    OTHER,
+    OTHER;
+
+    public String humanName() {
+        switch (this) {
+            case CUTTER:
+                return "Cutter";
+            case HANDLER:
+                return "Handler";
+            case OTHER:
+                return "Other";
+            default:
+                return "";
+        }
+    }
 }
