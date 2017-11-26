@@ -17,14 +17,16 @@ import java.util.List;
  */
 public class PlayerRecyclerViewAdapter extends RecyclerView.Adapter<PlayerRecyclerViewAdapter.RecyclerViewHolder> {
     private List<Player> players;
+    private View.OnClickListener clickListener;
 
     /**
      * Construct a new adapter for a list of players.
      *
      * @param players The players to initially populate the adapter with.
      */
-    public PlayerRecyclerViewAdapter(List<Player> players) {
+    public PlayerRecyclerViewAdapter(List<Player> players, View.OnClickListener clickListener) {
         this.players = players;
+        this.clickListener = clickListener;
     }
 
     /**
@@ -42,6 +44,8 @@ public class PlayerRecyclerViewAdapter extends RecyclerView.Adapter<PlayerRecycl
         Player player = players.get(position);
         holder.nameTextView.setText(player.name);
         holder.roleTextView.setText(player.role.humanName());
+        holder.itemView.setOnClickListener(clickListener);
+        holder.itemView.setTag(player);
     }
 
     /**
