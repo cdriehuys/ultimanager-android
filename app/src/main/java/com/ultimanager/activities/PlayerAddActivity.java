@@ -1,10 +1,8 @@
 package com.ultimanager.activities;
 
-import android.arch.persistence.room.Room;
 import android.os.AsyncTask;
-import android.support.design.widget.TextInputEditText;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -16,6 +14,9 @@ import com.ultimanager.models.Player;
 import com.ultimanager.models.PlayerRole;
 
 
+/**
+ * Activity for adding a new player to the database.
+ */
 public class PlayerAddActivity extends AppCompatActivity {
 
     /**
@@ -37,9 +38,13 @@ public class PlayerAddActivity extends AppCompatActivity {
         setContentView(R.layout.activity_player_add);
     }
 
+    /**
+     * Pull the player's information from the form and add them to the database.
+     */
     private void createPlayer() {
         final Player player = new Player();
 
+        // Pull the player's name from the text input
         EditText nameInput = findViewById(R.id.input_player_name);
         player.name = nameInput.getText().toString();
 
@@ -47,6 +52,7 @@ public class PlayerAddActivity extends AppCompatActivity {
         RadioButton radHandler = findViewById(R.id.radio_role_handler);
         RadioButton radOther = findViewById(R.id.radio_role_other);
 
+        // Map the currently selected radio button to a player role
         if (radCutter.isChecked()) {
             player.role = PlayerRole.CUTTER;
         } else if (radHandler.isChecked()) {
@@ -58,12 +64,16 @@ public class PlayerAddActivity extends AppCompatActivity {
             return;
         }
 
+        // Database tasks can't be performed on the main thread, so we perform it asynchronously
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
+                // Get a reference to the database and store the player's info
                 AppDatabase db = AppDatabase.getAppDatabase(PlayerAddActivity.this);
                 db.playerDao().insertPlayers(player);
 
+                // Then we finish the task which navigates back to the task that this one was
+                // launched from.
                 PlayerAddActivity.this.finish();
             }
         });

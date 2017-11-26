@@ -10,12 +10,27 @@ import android.arch.persistence.room.Query;
 import java.util.List;
 
 
+/**
+ * Interface for interacting with player objects.
+ *
+ * This handles mapping SQL queries to actual {@link Player} objects.
+ */
 @Dao
 public interface PlayerDao {
 
+    /**
+     * List all the players in the database.
+     *
+     * @return A list of all the players in the database.
+     */
     @Query("SELECT * from Player")
-    public LiveData<List<Player>> getAllPlayers();
+    LiveData<List<Player>> getAllPlayers();
 
+    /**
+     * Insert new players in the database.
+     *
+     * @param players A variable number of players to insert into the database.
+     */
     @Insert(onConflict = OnConflictStrategy.FAIL)
-    public void insertPlayers(Player... players);
+    void insertPlayers(Player... players);
 }
