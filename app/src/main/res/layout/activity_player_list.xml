@@ -6,12 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ListView
-        android:id="@+id/player_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </ListView>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_players"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_add_player"
@@ -21,7 +19,7 @@
         android:layout_margin="16dp"
         android:src="@drawable/ic_add_black_24dp"
         android:tint="@android:color/white"
-        app:layout_anchor="@id/player_list"
+        app:layout_anchor="@id/recycler_players"
         app:layout_anchorGravity="bottom|right|end" />
 
 </android.support.design.widget.CoordinatorLayout>

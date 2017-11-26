@@ -63,9 +63,9 @@ public class PlayerAddActivity extends AppCompatActivity {
             public void run() {
                 AppDatabase db = AppDatabase.getAppDatabase(PlayerAddActivity.this);
                 db.playerDao().insertPlayers(player);
+
+                PlayerAddActivity.this.finish();
             }
         });
-
-        finish();
     }
 }
