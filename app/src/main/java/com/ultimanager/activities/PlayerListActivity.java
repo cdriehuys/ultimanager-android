@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * Activity for listing the players in the database.
  */
-public class PlayerListActivity extends AppCompatActivity {
+public class PlayerListActivity extends AppCompatActivity implements View.OnClickListener {
 
     private PlayerListViewModel viewModel;
     private PlayerRecyclerViewAdapter recyclerViewAdapter;
@@ -45,7 +45,7 @@ public class PlayerListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         // Use our custom adapter
-        recyclerViewAdapter = new PlayerRecyclerViewAdapter(new ArrayList<Player>());
+        recyclerViewAdapter = new PlayerRecyclerViewAdapter(new ArrayList<Player>(), this);
         recyclerView.setAdapter(recyclerViewAdapter);
 
         // Retrieve our view model, which is basically a long living container for our list of
@@ -67,5 +67,20 @@ public class PlayerListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    /**
+     * Launch the detail activity for the player who was clicked.
+     *
+     * @param view The view containing the information of the player that was clicked.
+     */
+    @Override
+    public void onClick(View view) {
+        Player player = (Player) view.getTag();
+
+        Intent intent = new Intent(this, PlayerDetailActivity.class);
+        intent.putExtra(PlayerDetailActivity.EXTRA_PLAYER_ID, player.id);
+
+        startActivity(intent);
     }
 }

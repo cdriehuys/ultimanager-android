@@ -27,6 +27,16 @@ public interface PlayerDao {
     LiveData<List<Player>> getAllPlayers();
 
     /**
+     * Get a player by ID.
+     *
+     * @param id The ID of the player to search for.
+     *
+     * @return The player with the given ID.
+     */
+    @Query("SELECT * FROM Player WHERE id = :id")
+    Player getPlayerById(int id);
+
+    /**
      * Insert new players in the database.
      *
      * @param players A variable number of players to insert into the database.
