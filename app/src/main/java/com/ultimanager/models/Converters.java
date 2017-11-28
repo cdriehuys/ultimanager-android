@@ -2,6 +2,8 @@ package com.ultimanager.models;
 
 import android.arch.persistence.room.TypeConverter;
 
+import java.util.Date;
+
 
 /**
  * Converters used to help with storing data in a database.
@@ -11,6 +13,30 @@ import android.arch.persistence.room.TypeConverter;
  */
 @SuppressWarnings("WeakerAccess")
 public class Converters {
+
+    /**
+     * Convert a timestamp into a {@link Date} object.
+     *
+     * @param timestamp The timestamp to create a date from.
+     *
+     * @return A new date object representing the given timestamp.
+     */
+    @TypeConverter
+    public Date dateFromTimestamp(long timestamp) {
+        return new Date(timestamp);
+    }
+
+    /**
+     * Convert a date to its value in milliseconds.
+     *
+     * @param date The data to convert to a timestamp.
+     *
+     * @return The timestamp (in milliseconds) of the provided date.
+     */
+    @TypeConverter
+    public long dateToTimestamp(Date date) {
+        return date.getTime();
+    }
 
     /**
      * Convert a player role into a string.
