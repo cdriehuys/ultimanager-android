@@ -3,6 +3,7 @@ package com.ultimanager.models;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
+import android.arch.persistence.room.migration.Migration;
 import android.content.Context;
 
 
@@ -26,9 +27,10 @@ public abstract class AppDatabase extends RoomDatabase {
      */
     public static AppDatabase getAppDatabase(Context context) {
         if (instance == null) {
-            instance = Room.databaseBuilder(context.getApplicationContext(),
-                    AppDatabase.class,
-                    "app-db")
+            instance = Room
+                    .databaseBuilder(context.getApplicationContext(),
+                            AppDatabase.class,
+                            "app-db")
                     .fallbackToDestructiveMigration()
                     .build();
         }

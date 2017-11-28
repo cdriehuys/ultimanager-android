@@ -14,6 +14,7 @@ import android.view.View;
 
 import com.ultimanager.R;
 import com.ultimanager.models.Player;
+import com.ultimanager.viewmodels.GameListViewModel;
 import com.ultimanager.viewmodels.PlayerListViewModel;
 import com.ultimanager.views.PlayerRecyclerViewAdapter;
 

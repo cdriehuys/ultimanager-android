@@ -13,7 +13,7 @@
         android:layout_height="0dp"
         android:layout_width="0dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/btn_new_game"
+        app:layout_constraintBottom_toTopOf="@+id/welcome_buttons"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -34,36 +34,42 @@
             android:textSize="24sp" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_new_game"
+    <LinearLayout
+        android:id="@+id/welcome_buttons"
         android:layout_height="wrap_content"
         android:layout_width="0dp"
-        android:onClick="onClick"
-        android:text="@string/new_game"
-        app:layout_constraintBottom_toTopOf="@+id/btn_list_players"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcome_text_container" />
-
-    <Button
-        android:id="@+id/btn_list_players"
-        android:layout_height="wrap_content"
-        android:layout_width="0dp"
-        android:onClick="onClick"
-        android:text="@string/list_players"
-        app:layout_constraintBottom_toTopOf="@+id/btn_view_stats"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_new_game" />
-
-    <Button
-        android:id="@+id/btn_view_stats"
-        android:layout_height="wrap_content"
-        android:layout_width="0dp"
-        android:text="@string/view_stats"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_new_game" />
+        app:layout_constraintTop_toBottomOf="@+id/welcome_text_container">
+
+        <Button
+            android:id="@+id/btn_new_game"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:onClick="onClick"
+            android:text="@string/new_game" />
+
+        <Button
+            android:id="@+id/btn_list_players"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:onClick="onClick"
+            android:text="@string/list_players" />
+
+        <Button
+            android:id="@+id/btn_list_games"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:onClick="onClick"
+            android:text="@string/list_games" />
+
+        <Button
+            android:id="@+id/btn_view_stats"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="@string/view_stats" />
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

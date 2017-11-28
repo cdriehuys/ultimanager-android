@@ -4,6 +4,8 @@
     <string name="create_game">Create Game</string>
     <string name="create_player">Create Player</string>
     <string name="cutter">cutter</string>
+    <string name="games">Games</string>
+    <string name="list_games">List Games</string>
     <string name="list_players">List Players</string>
     <string name="handler">Handler</string>
     <string name="name">Name</string>

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.ultimanager.activities.GameAddActivity;
+import com.ultimanager.activities.GameListActivity;
 import com.ultimanager.activities.PlayerListActivity;
 
 
@@ -24,6 +25,9 @@ public class WelcomeActivity extends AppCompatActivity {
      */
     public void onClick(View v) {
         switch(v.getId()) {
+            case R.id.btn_list_games:
+                launchGameList();
+                break;
             case R.id.btn_list_players:
                 launchPlayerList();
                 break;
@@ -37,6 +41,11 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+    }
+
+    private void launchGameList() {
+        Intent intent = new Intent(this, GameListActivity.class);
+        startActivity(intent);
     }
 
     private void launchNewGameActivity() {
