@@ -20,6 +20,7 @@ public class Player {
      * The player's full name.
      */
     public String name;
+    public int number;
 
     /**
      * The player's role on the field.

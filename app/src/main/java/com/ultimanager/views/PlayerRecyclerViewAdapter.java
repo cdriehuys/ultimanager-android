@@ -43,6 +43,7 @@ public class PlayerRecyclerViewAdapter extends RecyclerView.Adapter<PlayerRecycl
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
         Player player = players.get(position);
         holder.nameTextView.setText(player.name);
+        holder.numTextView.setText("#" + String.valueOf(player.number));
         holder.roleTextView.setText(player.role.humanName());
         holder.itemView.setOnClickListener(clickListener);
         holder.itemView.setTag(player);
@@ -88,12 +89,15 @@ public class PlayerRecyclerViewAdapter extends RecyclerView.Adapter<PlayerRecycl
      */
     static class RecyclerViewHolder extends RecyclerView.ViewHolder {
         private TextView nameTextView;
+        private TextView numTextView;
         private TextView roleTextView;
+
 
         RecyclerViewHolder(View view) {
             super(view);
 
             nameTextView = view.findViewById(R.id.tv_player_name);
+            numTextView = view.findViewById(R.id.tv_player_number);
             roleTextView = view.findViewById(R.id.tv_player_role);
         }
     }

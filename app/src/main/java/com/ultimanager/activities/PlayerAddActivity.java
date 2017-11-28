@@ -48,6 +48,9 @@ public class PlayerAddActivity extends AppCompatActivity {
         EditText nameInput = findViewById(R.id.input_player_name);
         player.name = nameInput.getText().toString();
 
+        EditText numberInput = findViewById(R.id.input_player_number);
+        player.number = Integer.parseInt(numberInput.getText().toString());
+
         RadioButton radCutter = findViewById(R.id.radio_role_cutter);
         RadioButton radHandler = findViewById(R.id.radio_role_handler);
         RadioButton radOther = findViewById(R.id.radio_role_other);
