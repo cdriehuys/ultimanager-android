@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="8dp"
+    tools:context="com.ultimanager.activities.GameAddActivity">
+
+    <TextView
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="@string/new_game"
+        android:textColor="@color/colorTextDark"
+        android:textSize="24sp" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+        <android.support.design.widget.TextInputEditText
+            android:hint="@string/opposing_team"
+            android:id="@+id/input_opposing_team"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/btn_add_game"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="@string/create_game" />
+
+</LinearLayout>

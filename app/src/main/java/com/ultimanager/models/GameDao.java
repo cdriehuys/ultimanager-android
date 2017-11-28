@@ -8,5 +8,5 @@ import android.arch.persistence.room.Dao;
  * Interface for interacting with game objects from the database.
  */
 @Dao
-public class GameDao {
+abstract public class GameDao {
 }

@@ -38,6 +38,7 @@
         android:id="@+id/btn_new_game"
         android:layout_height="wrap_content"
         android:layout_width="0dp"
+        android:onClick="onClick"
         android:text="@string/new_game"
         app:layout_constraintBottom_toTopOf="@+id/btn_list_players"
         app:layout_constraintLeft_toLeftOf="parent"
