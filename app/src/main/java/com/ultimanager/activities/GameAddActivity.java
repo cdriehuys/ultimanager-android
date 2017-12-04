@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.ultimanager.R;
 import com.ultimanager.models.AppDatabase;
 import com.ultimanager.models.Game;
+import com.ultimanager.models.GamePosition;
 
 import java.lang.ref.WeakReference;
 import java.util.Date;
@@ -57,10 +59,27 @@ public class GameAddActivity extends AppCompatActivity {
      */
     private void saveGame() {
         EditText opposingTeamTextView = findViewById(R.id.input_opposing_team);
+
+        RadioButton defenseButton = findViewById(R.id.radio_defense);
+        RadioButton offenseButton = findViewById(R.id.radio_offense);
+
+        GamePosition position;
+        if (defenseButton.isChecked()) {
+            position = GamePosition.DEFENSE;
+        } else if (offenseButton.isChecked()) {
+            position = GamePosition.OFFENSE;
+        } else {
+            String message = "Please select a starting position.";
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+
+            return;
+        }
+
         Date startTime = new Date();
 
         Game game = new Game();
         game.opposingTeam = opposingTeamTextView.getText().toString();
+        game.startPosition = position;
         game.startTime = startTime;
 
         new CreateGameAsyncTask(this).execute(game);

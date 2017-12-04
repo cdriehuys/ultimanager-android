@@ -12,7 +12,7 @@ import android.content.Context;
  *
  * This provides access to the DAO's used to interact with the application's models.
  */
-@Database(version = 3, entities = {Game.class, Player.class})
+@Database(version = 4, entities = {Game.class, Player.class})
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase instance;
 

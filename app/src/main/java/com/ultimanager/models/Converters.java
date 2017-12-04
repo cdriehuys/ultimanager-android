@@ -38,6 +38,16 @@ public class Converters {
         return date.getTime();
     }
 
+    @TypeConverter
+    public GamePosition gamePositionFromString(String name) {
+        return GamePosition.valueOf(name);
+    }
+
+    @TypeConverter
+    public String gamePositionToString(GamePosition position) {
+        return position.name();
+    }
+
     /**
      * Convert a player role into a string.
      *
