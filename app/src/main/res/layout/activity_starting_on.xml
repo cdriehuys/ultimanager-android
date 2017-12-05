@@ -1,9 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.ultimanager.activities.StartingOnActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:text="Is your team starting on O or D"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <RadioGroup
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/radio_offense"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="OFFENSE" />
+        <RadioButton
+            android:id="@+id/radio_defense"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="DEFENSE" />
+    </RadioGroup>
+
+    <TextView
+        android:text="How many points is the game to?"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/point_number_edittextfield"
+        android:hint="Enter Point Number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:text="NEXT"
+        android:onClick="onClickSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

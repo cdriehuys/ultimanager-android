@@ -42,6 +42,13 @@ public class PlayerDetailActivity extends AppCompatActivity {
 
         nameTextView.setText(player.name);
         roleTextView.setText(player.role.humanName());
+
+        String statText = "Total Games Played In: 3\nPercentage of Completed Throws: 87%\nTotal Completed Throws 158\nTotal Incomplete Throws: 24\n\n";
+        statText += "Percentage of Completed Catches: 91%\nTotal Catches: 167\nTotal Drops: 15";
+
+        TextView sampleStats = findViewById(R.id.tv_sample_player_stats);
+        sampleStats.setText(statText);
+
     }
 
     /**
