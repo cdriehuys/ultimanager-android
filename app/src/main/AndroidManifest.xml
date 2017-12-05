@@ -23,6 +23,7 @@
         <activity android:name=".activities.GameListActivity" />
         <activity android:name=".activities.ThrowEventActivity" />
         <activity android:name=".activities.StartingOnActivity" />
+        <activity android:name=".activities.DPointActivity" />
     </application>
 
 </manifest>

@@ -69,6 +69,7 @@
             android:id="@+id/btn_view_stats"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            android:onClick="onClick"
             android:text="@string/view_stats" />
     </LinearLayout>
 

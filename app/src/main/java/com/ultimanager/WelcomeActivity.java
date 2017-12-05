@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.ultimanager.activities.DPointActivity;
 import com.ultimanager.activities.GameAddActivity;
 import com.ultimanager.activities.GameListActivity;
 import com.ultimanager.activities.PlayerListActivity;
@@ -34,6 +35,9 @@ public class WelcomeActivity extends AppCompatActivity {
             case R.id.btn_new_game:
                 launchNewGameActivity();
                 break;
+            case R.id.btn_view_stats:
+                launch();
+                break;
         }
     }
 
@@ -55,6 +59,11 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private void launchPlayerList() {
         Intent intent = new Intent(this, PlayerListActivity.class);
+        startActivity(intent);
+    }
+
+    private void launch(){
+        Intent intent = new Intent(this, DPointActivity.class);
         startActivity(intent);
     }
 }
