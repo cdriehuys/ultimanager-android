@@ -1,22 +1,37 @@
 package com.ultimanager.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 import com.ultimanager.R;
 
 public class DPointActivity extends AppCompatActivity {
 
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_throwaway:
+                launchOPoint();
+                break;
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dpoint);
 
-        String[] names = {"Michael","Bob","David","Sam","John","Nate","Alfred",};
+        String[] names = {"Alex", "Chathan", "Elijah", "Marc", "Matt", "Nate", "Sam"};
 
 
         setPlayerNames(names);
+    }
+
+    private void launchOPoint() {
+        Intent intent = new Intent(this, ThrowEventActivity.class);
+        startActivity(intent);
     }
 
     private void setPlayerNames(String[] names){

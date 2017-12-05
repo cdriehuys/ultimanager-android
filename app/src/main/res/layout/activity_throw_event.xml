@@ -5,7 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="8dp"
     tools:context="com.ultimanager.activities.ThrowEventActivity">
+
+    <TextView
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Track Throw"
+        android:textColor="@color/colorTextDark"
+        android:textSize="24sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Type:"/>
 
     <RadioGroup
         android:layout_height="wrap_content"
@@ -29,6 +44,12 @@
             android:text="Other" />
     </RadioGroup>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Edge:"/>
+
     <RadioGroup
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
@@ -49,6 +70,12 @@
             android:layout_width="wrap_content"
             android:text="Flat" />
     </RadioGroup>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Distance:"/>
 
     <RadioGroup
         android:layout_height="wrap_content"
@@ -71,6 +98,12 @@
             android:text="Dump/Lateral" />
     </RadioGroup>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Result:"/>
+
     <RadioGroup
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
@@ -92,6 +125,10 @@
             android:text="Score" />
     </RadioGroup>
 
-
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Record Throw"/>
 
 </LinearLayout>

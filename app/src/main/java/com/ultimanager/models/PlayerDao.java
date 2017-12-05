@@ -23,7 +23,7 @@ public interface PlayerDao {
      *
      * @return A list of all the players in the database.
      */
-    @Query("SELECT * from Player")
+    @Query("SELECT * from Player ORDER BY name ASC")
     LiveData<List<Player>> getAllPlayers();
 
     /**

@@ -77,9 +77,10 @@
                 android:layout_height="match_parent">
                 <Button
                     android:text="THROWAWAY"
-                    android:id="@+id/player"
+                    android:id="@+id/btn_throwaway"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:onClick="onClick"/>
             </LinearLayout>
 
         </LinearLayout>

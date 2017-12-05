@@ -8,27 +8,6 @@
     tools:context="com.ultimanager.activities.StartingOnActivity">
 
     <TextView
-        android:text="Is your team starting on O or D"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <RadioGroup
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:orientation="horizontal">
-        <RadioButton
-            android:id="@+id/radio_offense"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="OFFENSE" />
-        <RadioButton
-            android:id="@+id/radio_defense"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="DEFENSE" />
-    </RadioGroup>
-
-    <TextView
         android:text="How many points is the game to?"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

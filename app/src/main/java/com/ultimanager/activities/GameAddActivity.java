@@ -1,5 +1,6 @@
 package com.ultimanager.activities;
 
+import android.arch.lifecycle.LiveData;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import com.ultimanager.models.GamePosition;
 
 import java.lang.ref.WeakReference;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -54,7 +56,7 @@ public class GameAddActivity extends AppCompatActivity {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         finish();
 
-        Intent X = new Intent(this, StartingOnActivity.class);
+        Intent X = new Intent(this, PlayerListActivity.class);
         startActivity(X);
     }
 
