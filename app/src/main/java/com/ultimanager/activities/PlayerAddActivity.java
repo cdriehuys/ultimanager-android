@@ -3,6 +3,7 @@ package com.ultimanager.activities;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -18,6 +19,8 @@ import com.ultimanager.models.PlayerRole;
  * Activity for adding a new player to the database.
  */
 public class PlayerAddActivity extends AppCompatActivity {
+
+    public static int DEFAULT_PLAYER_NUMBER = 999;
 
     /**
      * Handle button clicks for the activity.
@@ -46,10 +49,24 @@ public class PlayerAddActivity extends AppCompatActivity {
 
         // Pull the player's name from the text input
         EditText nameInput = findViewById(R.id.input_player_name);
-        player.name = nameInput.getText().toString();
+        String n =nameInput.getText().toString();
+        if (n.length() < 1 ){
+            Toast.makeText(this, "Please specify the player's name.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        player.name = n;
 
         EditText numberInput = findViewById(R.id.input_player_number);
-        player.number = Integer.parseInt(numberInput.getText().toString());
+        String numString = numberInput.getText().toString();
+        if (numString.length() < 1 ){
+           player.number = DEFAULT_PLAYER_NUMBER;
+        }else {
+            player.number = Integer.parseInt(numString);
+        }
+
+
+
+
 
         RadioButton radCutter = findViewById(R.id.radio_role_cutter);
         RadioButton radHandler = findViewById(R.id.radio_role_handler);
