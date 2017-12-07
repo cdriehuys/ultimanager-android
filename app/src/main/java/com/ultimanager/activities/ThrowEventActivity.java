@@ -19,6 +19,7 @@ public class ThrowEventActivity extends AppCompatActivity {
 
 
 /*
+Db schema for:
 Throws
 	PlayerId: INT, primary key
 	ReceiverId: INT, foreign key to players table
@@ -26,6 +27,11 @@ Throws
 	ExtraThrowInfo: enum ('io', 'oi', 'flat', 'scoober', 'hammer', 'offhand')
 	ThrowDirection: enum ( 'under', 'deep', 'dump_or_lateral')
 	Throw Result: enum ( 'completion', 'turnover', 'score')
+ */
+
+/*
+    The app collects data on more extensive throw information, which can be used analytically in a variety of ways.
+    We represented general statistics in our 'player statistics' Activity, but we laid the groundwork to explore the information more in depth.
  */
 
 private void handleThrowInformation(){
@@ -74,8 +80,9 @@ private void handleThrowInformation(){
             // offhand
         }
     } else {
-        Toast.makeText(this, "Please specify more throw information.", Toast.LENGTH_SHORT).show();
-        return;
+        // can uncomment this to require the user to input more data, but the extensive data collection is optional for users.
+//        Toast.makeText(this, "Please specify more throw information.", Toast.LENGTH_SHORT).show();
+//        return;
     }
 
 
@@ -95,6 +102,9 @@ private void handleThrowInformation(){
         // turnover
     } else if (rad_score.isChecked()) {
         // score
+    } else {
+        Toast.makeText(this, "Please specify result information.", Toast.LENGTH_SHORT).show();
+        return;
     }
 
 

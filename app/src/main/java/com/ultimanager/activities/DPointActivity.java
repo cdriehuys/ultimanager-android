@@ -10,14 +10,6 @@ import com.ultimanager.R;
 
 public class DPointActivity extends AppCompatActivity {
 
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btn_throwaway:
-                launchOPoint();
-                break;
-        }
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,12 +18,42 @@ public class DPointActivity extends AppCompatActivity {
         String[] names = {"Alex", "Chathan", "Elijah", "Marc", "Matt", "Nate", "Sam"};
 
 
+        // get array of the 7 players on the field.
         setPlayerNames(names);
     }
 
-    private void launchOPoint() {
-        Intent intent = new Intent(this, ThrowEventActivity.class);
-        startActivity(intent);
+
+
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_throwaway:
+                launchOPoint();
+                break;
+            case R.id.player1:
+                launchOPoint();
+                break;
+            case R.id.player2:
+                launchOPoint();
+                break;
+            case R.id.player3:
+                launchOPoint();
+                break;
+            case R.id.player4:
+                launchOPoint();
+                break;
+            case R.id.player5:
+                launchOPoint();
+                break;
+            case R.id.player6:
+                launchOPoint();
+                break;
+            case R.id.player7:
+                launchOPoint();
+                break;
+            case R.id.btn_score:
+                launchScoreScreen();
+                break;
+        }
     }
 
     private void setPlayerNames(String[] names){
@@ -51,4 +73,16 @@ public class DPointActivity extends AppCompatActivity {
         p6.setText(names[5]);
         p7.setText(names[6]);
     }
+
+    private void launchOPoint() {
+        Intent intent = new Intent(this, ThrowEventActivity.class);
+        startActivity(intent);
+    }
+
+    private void launchScoreScreen() {
+        Intent intent = new Intent(this, ThrowEventActivity.class);
+        startActivity(intent);
+    }
+
+
 }

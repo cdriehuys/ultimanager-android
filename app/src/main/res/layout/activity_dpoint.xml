@@ -28,46 +28,51 @@
             android:layout_marginTop="50dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <LinearLayout
                 android:orientation="vertical"
                 android:id="@+id/leftside"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
-
                 <Button
                     android:text="player1"
                     android:id="@+id/player1"
+                    android:onClick="onClick"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <Button
                     android:text="player"
                     android:id="@+id/player2"
+                    android:onClick="onClick"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <Button
                     android:text="player"
                     android:id="@+id/player3"
+                    android:onClick="onClick"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <Button
                     android:text="player"
                     android:id="@+id/player4"
+                    android:onClick="onClick"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <Button
                     android:text="player"
                     android:id="@+id/player5"
+                    android:onClick="onClick"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <Button
                     android:text="player"
                     android:id="@+id/player6"
+                    android:onClick="onClick"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <Button
                     android:text="player"
                     android:id="@+id/player7"
+                    android:onClick="onClick"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -82,7 +87,12 @@
                     android:layout_height="match_parent"
                     android:onClick="onClick"/>
             </LinearLayout>
-
         </LinearLayout>
+        <Button
+            android:text="Score"
+            android:id="@+id/btn_score"
+            android:onClick="onClick"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </LinearLayout>
