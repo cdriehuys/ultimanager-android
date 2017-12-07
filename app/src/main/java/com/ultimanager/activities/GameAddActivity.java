@@ -81,6 +81,13 @@ public class GameAddActivity extends AppCompatActivity {
             return;
         }
 
+        if(opposingTeamTextView.getText().toString().length() < 1){
+            String message = "Please add the opposing team name.";
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+
+            return;
+        }
+
         Date startTime = new Date();
 
         Game game = new Game();
