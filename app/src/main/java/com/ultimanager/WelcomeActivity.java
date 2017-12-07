@@ -9,6 +9,7 @@ import com.ultimanager.activities.DPointActivity;
 import com.ultimanager.activities.GameAddActivity;
 import com.ultimanager.activities.GameListActivity;
 import com.ultimanager.activities.PlayerListActivity;
+import com.ultimanager.activities.SetTeamnameActivity;
 
 
 /**
@@ -38,6 +39,9 @@ public class WelcomeActivity extends AppCompatActivity {
             case R.id.btn_view_stats:
                 launch();
                 break;
+            case R.id.btn_teamname:
+                launchSetTeamnameActivity();
+                break;
         }
     }
 
@@ -66,4 +70,10 @@ public class WelcomeActivity extends AppCompatActivity {
         Intent intent = new Intent(this, DPointActivity.class);
         startActivity(intent);
     }
+
+    private void launchSetTeamnameActivity(){
+        Intent intent = new Intent(this, SetTeamnameActivity.class);
+        startActivity(intent);
+    }
+
 }
