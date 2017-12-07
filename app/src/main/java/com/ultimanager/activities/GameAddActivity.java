@@ -1,6 +1,5 @@
 package com.ultimanager.activities;
 
-import android.arch.lifecycle.LiveData;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,8 +16,6 @@ import com.ultimanager.models.GamePosition;
 
 import java.lang.ref.WeakReference;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 
 /**
@@ -51,13 +48,13 @@ public class GameAddActivity extends AppCompatActivity {
      * @param game The game that was saved.
      */
     private void handleGameSaved(Game game) {
-        String msg = String.format(Locale.US, "Saved game against %s", game.opposingTeam);
-
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         finish();
 
-        Intent X = new Intent(this, PlayerListActivity.class);
-        startActivity(X);
+        Intent intent = new Intent(this, LineSelectActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(LineSelectActivity.EXTRA_GAME_ID, game.id);
+
+        startActivity(intent);
     }
 
     /**
@@ -122,6 +119,8 @@ public class GameAddActivity extends AppCompatActivity {
          */
         @Override
         protected Game doInBackground(Game... games) {
+            Game game = games[0];
+
             // If the activity no longer exists, we abort the task.
             GameAddActivity activity = activityReference.get();
             if (activity == null) {
@@ -129,9 +128,9 @@ public class GameAddActivity extends AppCompatActivity {
             }
 
             AppDatabase db = AppDatabase.getAppDatabase(activity);
-            db.gameDao().insertGames(games[0]);
+            game.id = db.gameDao().addGame(game);
 
-            return games[0];
+            return game;
         }
 
         /**

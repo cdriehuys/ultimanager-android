@@ -14,7 +14,7 @@ public class Player {
     // We auto-generate an ID so we have an easy way to reference players. It's much easier to pass
     // a player's ID around than the entire object.
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    public long id;
 
     /**
      * The player's full name.

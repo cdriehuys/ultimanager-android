@@ -6,8 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bignerdranch.android.multiselector.MultiSelector;
+import com.bignerdranch.android.multiselector.SwappingHolder;
 import com.ultimanager.R;
 import com.ultimanager.models.Player;
+import com.ultimanager.ui.PlayerViewHolder;
 
 import java.util.List;
 
@@ -15,7 +18,7 @@ import java.util.List;
 /**
  * Custom adapter for listing players in a recycler view.
  */
-public class PlayerRecyclerViewAdapter extends RecyclerView.Adapter<PlayerRecyclerViewAdapter.RecyclerViewHolder> {
+public class PlayerRecyclerViewAdapter extends RecyclerView.Adapter<PlayerViewHolder> {
     private List<Player> players;
     private View.OnClickListener clickListener;
 
@@ -40,11 +43,10 @@ public class PlayerRecyclerViewAdapter extends RecyclerView.Adapter<PlayerRecycl
      *                 to.
      */
     @Override
-    public void onBindViewHolder(RecyclerViewHolder holder, int position) {
+    public void onBindViewHolder(PlayerViewHolder holder, int position) {
         Player player = players.get(position);
-        holder.nameTextView.setText(player.name);
-        holder.numTextView.setText("#" + String.valueOf(player.number));
-        holder.roleTextView.setText(player.role.humanName());
+
+        holder.bind(player);
         holder.itemView.setOnClickListener(clickListener);
         holder.itemView.setTag(player);
     }
@@ -59,9 +61,10 @@ public class PlayerRecyclerViewAdapter extends RecyclerView.Adapter<PlayerRecycl
      * @return The holder that will be used to display a single player's information.
      */
     @Override
-    public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new RecyclerViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.player_recycler_item, parent, false));
+    public PlayerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new PlayerViewHolder(
+                LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.player_recycler_item, parent, false));
     }
 
     /**
@@ -82,23 +85,5 @@ public class PlayerRecyclerViewAdapter extends RecyclerView.Adapter<PlayerRecycl
     public void setPlayers(List<Player> players) {
         this.players = players;
         notifyDataSetChanged();
-    }
-
-    /**
-     * A view containing the information for a single player.
-     */
-    static class RecyclerViewHolder extends RecyclerView.ViewHolder {
-        private TextView nameTextView;
-        private TextView numTextView;
-        private TextView roleTextView;
-
-
-        RecyclerViewHolder(View view) {
-            super(view);
-
-            nameTextView = view.findViewById(R.id.tv_player_name);
-            numTextView = view.findViewById(R.id.tv_player_number);
-            roleTextView = view.findViewById(R.id.tv_player_role);
-        }
     }
 }
