@@ -16,6 +16,11 @@ Google's official guide to using Room, their wrapper around SQLite. Room simplif
 This page describes the entire process going from setting up the models in the database to querying for them and listing them using a `RecyclerView`.
 
 
+## Attributions
+
+Icons: https://icons8.com/icon/set/frisbee/all
+
+
 ## License
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
