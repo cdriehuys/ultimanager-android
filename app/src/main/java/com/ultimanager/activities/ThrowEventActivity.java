@@ -22,9 +22,9 @@ public class ThrowEventActivity extends AppCompatActivity {
 Throws
 	PlayerId: INT, primary key
 	ReceiverId: INT, foreign key to players table
-	ThrowType: enum ('flick', 'backhand', 'other')
-	ExtraThrowInfo: enum ('io', 'oi', 'flat', 'scoober', 'hammer', 'offhand')
-	ThrowDirection: enum ( 'under', 'deep', 'dump_or_lateral')
+        //	ThrowType: enum ('flick', 'backhand', 'other')
+        //	ExtraThrowInfo: enum ('io', 'oi', 'flat', 'scoober', 'hammer', 'offhand')
+        //	ThrowDirection: enum ( 'under', 'deep', 'dump_or_lateral')
 	Throw Result: enum ( 'completion', 'turnover', 'score')
  */
 
