@@ -15,7 +15,7 @@ import java.util.Date;
 @Entity
 public class Game {
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    public long id;
 
     @TypeConverters({Converters.class})
     public Date startTime;

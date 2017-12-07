@@ -52,6 +52,7 @@ public class GameAddActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, LineSelectActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(LineSelectActivity.EXTRA_GAME_ID, game.id);
 
         startActivity(intent);
     }
@@ -118,6 +119,8 @@ public class GameAddActivity extends AppCompatActivity {
          */
         @Override
         protected Game doInBackground(Game... games) {
+            Game game = games[0];
+
             // If the activity no longer exists, we abort the task.
             GameAddActivity activity = activityReference.get();
             if (activity == null) {
@@ -125,9 +128,9 @@ public class GameAddActivity extends AppCompatActivity {
             }
 
             AppDatabase db = AppDatabase.getAppDatabase(activity);
-            db.gameDao().insertGames(games[0]);
+            game.id = db.gameDao().addGame(game);
 
-            return games[0];
+            return game;
         }
 
         /**

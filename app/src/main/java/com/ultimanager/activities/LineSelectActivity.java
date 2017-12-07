@@ -2,6 +2,9 @@ package com.ultimanager.activities;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,16 +21,36 @@ import android.widget.TextView;
 import com.bignerdranch.android.multiselector.MultiSelector;
 import com.bignerdranch.android.multiselector.SwappingHolder;
 import com.ultimanager.R;
+import com.ultimanager.WelcomeActivity;
+import com.ultimanager.models.AppDatabase;
+import com.ultimanager.models.Game;
 import com.ultimanager.models.Player;
+import com.ultimanager.models.Point;
+import com.ultimanager.models.PointPlayer;
 import com.ultimanager.viewmodels.PlayerListViewModel;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
 public class LineSelectActivity extends AppCompatActivity {
+    public final static String EXTRA_GAME_ID = "com.ultimanager.extras.GAME_ID";
+
+    private RecyclerView recyclerView;
+
     private Button useLineBtn;
 
+    private long gameId;
+
     private MultiSelector multiSelector;
+
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_select_line:
+                handleSelectLine();
+                break;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +60,7 @@ public class LineSelectActivity extends AppCompatActivity {
         multiSelector = new MultiSelector();
         multiSelector.setSelectable(true);
 
-        RecyclerView recyclerView = findViewById(R.id.recycler_line_select);
+        recyclerView = findViewById(R.id.recycler_line_select);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 
         recyclerView.addItemDecoration(
@@ -57,6 +80,9 @@ public class LineSelectActivity extends AppCompatActivity {
         });
 
         useLineBtn = findViewById(R.id.btn_select_line);
+
+        Intent intent = getIntent();
+        gameId = intent.getLongExtra(EXTRA_GAME_ID, -1);
     }
 
     private void handlePlayerSelection() {
@@ -65,6 +91,27 @@ public class LineSelectActivity extends AppCompatActivity {
         } else {
             useLineBtn.setEnabled(false);
         }
+    }
+
+    private void handleSelectLine() {
+        List<Integer> positions = multiSelector.getSelectedPositions();
+        Long[] playerIds = new Long[positions.size()];
+
+        for (int i = 0; i < positions.size(); i++) {
+            Player player = (Player) recyclerView.getChildAt(positions.get(i)).getTag();
+            playerIds[i] = player.id;
+        }
+
+        new SaveLineTask(this, gameId).execute(playerIds);
+    }
+
+    private void handleSelectLineComplete() {
+        Intent intent = new Intent(this, WelcomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        startActivity(intent);
+
+        finish();
     }
 
     private class ViewHolder extends SwappingHolder implements View.OnClickListener {
@@ -88,6 +135,8 @@ public class LineSelectActivity extends AppCompatActivity {
             nameTextView.setText(player.name);
             numTextView.setText("#" + String.valueOf(player.number));
             roleTextView.setText(player.role.humanName());
+
+            itemView.setTag(player);
         }
 
         @Override
@@ -129,6 +178,49 @@ public class LineSelectActivity extends AppCompatActivity {
         void setPlayers(List<Player> players) {
             this.players = players;
             notifyDataSetChanged();
+        }
+    }
+
+    private static class SaveLineTask extends AsyncTask<Long, Void, Void> {
+        private long gameId;
+        private WeakReference<LineSelectActivity> activityReference;
+
+        SaveLineTask(LineSelectActivity activity, long gameId) {
+            activityReference = new WeakReference<>(activity);
+            this.gameId = gameId;
+        }
+
+        @Override
+        protected Void doInBackground(Long... playerIds) {
+            LineSelectActivity activity = activityReference.get();
+            if (activity != null) {
+                AppDatabase db = AppDatabase.getAppDatabase(activity.getApplicationContext());
+
+                Game game = db.gameDao().getById(gameId);
+
+                Point point = new Point();
+                point.gameId = game.id;
+
+                long pointId = db.pointDao().addPoint(point);
+
+                for (Long id : playerIds) {
+                    PointPlayer pointPlayer = new PointPlayer();
+                    pointPlayer.playerId = id;
+                    pointPlayer.pointId = pointId;
+
+                    db.pointPlayerDao().addPointPlayer(pointPlayer);
+                }
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            LineSelectActivity activity = activityReference.get();
+            if (activity != null) {
+                activity.handleSelectLineComplete();
+            }
         }
     }
 }

@@ -38,6 +38,7 @@
         android:id="@+id/btn_select_line"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:onClick="onClick"
         android:text="@string/use_line"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

@@ -20,6 +20,9 @@ public interface GameDao {
     @Query("SELECT * FROM Game ORDER BY startTime ASC")
     LiveData<List<Game>> getAllGames();
 
+    @Query("SELECT * FROM Game WHERE id = :id LIMIT 1")
+    Game getById(long id);
+
     @Insert(onConflict = OnConflictStrategy.FAIL)
-    void insertGames(Game... games);
+    long addGame(Game game);
 }
