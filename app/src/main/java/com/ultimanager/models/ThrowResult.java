@@ -8,7 +8,8 @@ public enum ThrowResult {
 
     COMPLETION,
     TURNOVER,
-    SCORE;
+    SCORE,
+    THEY_SCORE;
 
     public String humanName() {
         switch (this) {
@@ -18,6 +19,8 @@ public enum ThrowResult {
                 return "Turnover";
             case SCORE:
                 return "Score";
+            case THEY_SCORE:
+                return "Opponent scored";
             default:
                 return "";
         }

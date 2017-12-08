@@ -89,6 +89,9 @@ public class WelcomeActivity extends AppCompatActivity {
         if(name.length() < 1) {
             return "\nYou haven't set your teamname yet. Click on 'EDIT TEAMNAME' to do so.";
         }
+
+        TextView introp = findViewById(R.id.tv_welcome_message);
+        introp.setVisibility(View.INVISIBLE);
         return "Your team is:\n" + name;
     }
 
