@@ -1,9 +1,14 @@
 package com.ultimanager;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ultimanager.activities.DPointActivity;
 import com.ultimanager.activities.GameAddActivity;
@@ -49,6 +54,11 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+
+        Toast.makeText(this,"oncreate called in welcomeActivity",Toast.LENGTH_SHORT).show();
+
+        TextView teamname_tv = findViewById(R.id.tv_teamname_text);
+        teamname_tv.setText(getTeamnameText());
     }
 
     private void launchGameList() {
@@ -74,6 +84,15 @@ public class WelcomeActivity extends AppCompatActivity {
     private void launchSetTeamnameActivity(){
         Intent intent = new Intent(this, SetTeamnameActivity.class);
         startActivity(intent);
+    }
+
+    private String getTeamnameText(){
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        String name = sp.getString("teamname","");
+        if(name.length() < 1) {
+            return "\nYou haven't set your teamname yet. Click on 'EDIT TEAMNAME' to do so.";
+        }
+        return "Your team is:\n" + name;
     }
 
 }

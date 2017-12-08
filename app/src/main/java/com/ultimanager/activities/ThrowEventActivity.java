@@ -97,7 +97,6 @@ private void handleThrowInformation(){
         // score
     }
 
-
     //TODO get the player and receiver info. - add the throw event to the database.
 }
 

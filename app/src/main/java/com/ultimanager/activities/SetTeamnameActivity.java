@@ -1,9 +1,13 @@
 package com.ultimanager.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -47,12 +51,14 @@ public class SetTeamnameActivity extends AppCompatActivity {
         EditText nameInput = findViewById(R.id.input_team_name);
         teamName = nameInput.getText().toString();
 
-        if( teamName.length() == 0 ){
-            Toast.makeText(this,"Please enter your teamname",Toast.LENGTH_SHORT);
+        if( teamName.length() < 1 ){
+            Toast.makeText(this,"Please enter your team name",Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // TODO set teamname. maybe have a global variable to tell welcome screen if the teamname is set.
+        // TODO set teamname.
+
+        saveTeamname(teamName);
 
 
         /**
@@ -61,15 +67,17 @@ public class SetTeamnameActivity extends AppCompatActivity {
         Intent intent = new Intent(this, WelcomeActivity.class);
         startActivity(intent);
 
-
-        // Database tasks can't be performed on the main thread, so we perform it asynchronously
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                // Get a reference to the database and store the player's info
-                //AppDatabase db = AppDatabase.getAppDatabase(SetTeamnameActivity.this);
-
-            }
-        });
     }
+
+    public void saveTeamname( String s ) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+
+        SharedPreferences.Editor spe = sp.edit();
+        spe.putString("teamname", s);
+        spe.commit();
+
+        Toast.makeText(this, "Team name saved", Toast.LENGTH_SHORT).show();
+    }
+
+
 }
