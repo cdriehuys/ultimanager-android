@@ -56,8 +56,6 @@ public class SetTeamnameActivity extends AppCompatActivity {
             return;
         }
 
-        // TODO set teamname.
-
         saveTeamname(teamName);
 
 

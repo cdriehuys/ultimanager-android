@@ -54,9 +54,6 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-
-        Toast.makeText(this,"oncreate called in welcomeActivity",Toast.LENGTH_SHORT).show();
-
         TextView teamname_tv = findViewById(R.id.tv_teamname_text);
         teamname_tv.setText(getTeamnameText());
     }
