@@ -4,13 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ultimanager.activities.LineSelectActivity">
+    tools:context="com.ultimanager.activities.GameTrackerActivity">
 
     <LinearLayout
-        android:id="@+id/line_select_header"
-        android:layout_height="wrap_content"
+        android:background="@drawable/header_border"
+        android:id="@+id/game_tracker_header"
         android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:padding="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -19,29 +21,20 @@
             android:gravity="center"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:text="@string/select_line"
+            android:text="Game Tracker"
             android:textColor="@color/colorTextDark"
-            android:textSize="24sp"/>
+            android:textSize="24sp"
+            android:textStyle="bold"/>
+
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_line_select"
+    <FrameLayout
+        android:id="@+id/game_tracker_fragment"
         android:layout_height="0dp"
         android:layout_width="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_select_line"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/line_select_header"/>
-
-    <Button
-        android:enabled="false"
-        android:id="@+id/btn_select_line"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:onClick="onClick"
-        android:text="@string/use_line"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/game_tracker_header" />
 
 </android.support.constraint.ConstraintLayout>

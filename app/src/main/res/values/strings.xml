@@ -18,4 +18,7 @@
     <string name="view_stats">View Stats</string>
     <string name="welcome">Welcome</string>
     <string name="welcome_message">UltiManager allows you to record statistics for a new game, or view the results of previous games.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -50,9 +50,9 @@ public class GameAddActivity extends AppCompatActivity {
     private void handleGameSaved(Game game) {
         finish();
 
-        Intent intent = new Intent(this, LineSelectActivity.class);
+        Intent intent = new Intent(this, GameTrackerActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra(LineSelectActivity.EXTRA_GAME_ID, game.id);
+        intent.putExtra(GameTrackerActivity.EXTRA_GAME_ID, game.id);
 
         startActivity(intent);
     }
