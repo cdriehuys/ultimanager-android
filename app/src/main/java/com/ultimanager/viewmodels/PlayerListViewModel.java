@@ -30,7 +30,7 @@ public class PlayerListViewModel extends AndroidViewModel {
         super(app);
 
         AppDatabase db = AppDatabase.getAppDatabase(this.getApplication());
-        playerList = db.playerDao().getAllPlayers();
+        playerList = db.players().getAllPlayers();
     }
 
     /**

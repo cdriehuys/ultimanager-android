@@ -128,7 +128,7 @@ public class GameAddActivity extends AppCompatActivity {
             }
 
             AppDatabase db = AppDatabase.getAppDatabase(activity);
-            game.id = db.gameDao().addGame(game);
+            game.id = db.games().addGame(game);
 
             return game;
         }

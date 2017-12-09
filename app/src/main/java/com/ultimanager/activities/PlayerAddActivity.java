@@ -3,7 +3,6 @@ package com.ultimanager.activities;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -90,7 +89,7 @@ public class PlayerAddActivity extends AppCompatActivity {
             public void run() {
                 // Get a reference to the database and store the player's info
                 AppDatabase db = AppDatabase.getAppDatabase(PlayerAddActivity.this);
-                db.playerDao().insertPlayers(player);
+                db.players().insertPlayers(player);
 
                 // Then we finish the task which navigates back to the task that this one was
                 // launched from.

@@ -2,7 +2,6 @@ package com.ultimanager.activities;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
@@ -196,19 +195,18 @@ public class LineSelectActivity extends AppCompatActivity {
             if (activity != null) {
                 AppDatabase db = AppDatabase.getAppDatabase(activity.getApplicationContext());
 
-                Game game = db.gameDao().getById(gameId);
+                Game game = db.games().getById(gameId);
 
-                Point point = new Point();
-                point.gameId = game.id;
+                Point point = new Point(game.id, Point.Result.IN_PROGRESS);
 
-                long pointId = db.pointDao().addPoint(point);
+                long pointId = db.points().addPoint(point);
 
                 for (Long id : playerIds) {
                     PointPlayer pointPlayer = new PointPlayer();
                     pointPlayer.playerId = id;
                     pointPlayer.pointId = pointId;
 
-                    db.pointPlayerDao().addPointPlayer(pointPlayer);
+                    db.pointPlayers().addPointPlayer(pointPlayer);
                 }
             }
 

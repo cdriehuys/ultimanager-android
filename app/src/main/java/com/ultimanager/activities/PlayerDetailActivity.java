@@ -82,7 +82,7 @@ public class PlayerDetailActivity extends AppCompatActivity {
 
             AppDatabase db = AppDatabase.getAppDatabase(activity);
 
-            return db.playerDao().getPlayerById(id);
+            return db.players().getPlayerById(id);
         }
 
         /**
