@@ -26,19 +26,34 @@
         android:id="@+id/recycler_line_select"
         android:layout_height="0dp"
         android:layout_width="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_select_line"
+        app:layout_constraintBottom_toTopOf="@+id/line_select_footer"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/line_select_header"/>
 
-    <Button
-        android:enabled="false"
-        android:id="@+id/btn_select_line"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/line_select_footer"
         android:layout_height="wrap_content"
-        android:text="@string/use_line"
+        android:layout_width="0dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent" >
+        <Button
+            android:id="@+id/btn_select_7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select 7"
+            />
+
+        <Button
+            android:enabled="false"
+            android:id="@+id/btn_select_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/use_line"/>
+    </LinearLayout>
+
+
 
 </android.support.constraint.ConstraintLayout>

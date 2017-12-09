@@ -87,6 +87,9 @@ public class LineSelectFragment extends Fragment implements View.OnClickListener
         useLineBtn = fragmentRoot.findViewById(R.id.btn_select_line);
         useLineBtn.setOnClickListener(this);
 
+        Button selectLineBtn = fragmentRoot.findViewById(R.id.btn_select_7);
+        selectLineBtn.setOnClickListener(this::selectFirst7);
+
         return fragmentRoot;
     }
 
@@ -109,6 +112,14 @@ public class LineSelectFragment extends Fragment implements View.OnClickListener
         } else {
             useLineBtn.setEnabled(false);
         }
+    }
+
+    private void selectFirst7(View view){
+        for(int i = 0; i < 7; i++){
+            multiSelector.setSelected(i, 0, true);
+        }
+
+        handlePlayerSelection();
     }
 
     private class ViewHolder extends SwappingHolder implements View.OnClickListener {
