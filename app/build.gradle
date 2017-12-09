@@ -39,4 +39,5 @@ dependencies {
     annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
     compile 'com.android.support:design:26.1.0'
     compile 'com.bignerdranch.android:recyclerview-multiselect:0.2'
+    compile 'org.apmem.tools:layouts:1.10@aar'
 }

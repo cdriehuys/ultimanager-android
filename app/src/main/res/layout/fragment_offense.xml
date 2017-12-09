@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/thrower_info"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:visibility="invisible">
+
+        <TextView
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="8dp"
+            android:text="Thrower"
+            android:textColor="@color/colorTextDark"
+            android:textSize="24sp"/>
+
+        <org.apmem.tools.layouts.FlowLayout
+            android:gravity="center"
+            android:id="@+id/thrower_buttons"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:gravity="center"
+        android:id="@+id/receiver_info"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:visibility="invisible">
+
+        <TextView
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="8dp"
+            android:text="Receiver"
+            android:textColor="@color/colorTextDark"
+            android:textSize="24sp"/>
+
+        <org.apmem.tools.layouts.FlowLayout
+            android:id="@+id/receiver_buttons"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/throw_info"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:visibility="invisible">
+
+        <TextView
+            android:gravity="center"
+            android:id="@+id/tv_throw_info"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="8dp"
+            android:text="Throw Information"
+            android:textColor="@color/colorTextDark"
+            android:textSize="24sp"/>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:paddingTop="8dp"
+            android:text="Throw Type"/>
+
+        <RadioGroup
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/radio_flick"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Flick" />
+            <RadioButton
+                android:id="@+id/radio_backhand"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Backhand" />
+            <RadioButton
+                android:id="@+id/radio_other"
+                android:checked="true"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Other" />
+        </RadioGroup>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:paddingTop="8dp"
+            android:text="Result"/>
+
+        <RadioGroup
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/radio_completion"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Completion" />
+            <RadioButton
+                android:id="@+id/radio_goal"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Goal" />
+            <RadioButton
+                android:id="@+id/radio_turnover"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Turnover" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_record_throw"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginTop="16dp"
+        android:text="Record Throw"
+        android:visibility="invisible" />
+</LinearLayout>

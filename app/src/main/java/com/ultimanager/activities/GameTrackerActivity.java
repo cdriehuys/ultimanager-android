@@ -13,20 +13,26 @@ import com.ultimanager.models.GamePosition;
 import com.ultimanager.models.Player;
 import com.ultimanager.models.Point;
 import com.ultimanager.models.Possession;
+import com.ultimanager.models.Throw;
 import com.ultimanager.tasks.CompletePointTask;
 import com.ultimanager.tasks.CreatePointTask;
 import com.ultimanager.tasks.CreatePossessionTask;
+import com.ultimanager.tasks.UpdatePointTask;
+import com.ultimanager.tasks.CreateThrowTask;
 import com.ultimanager.ui.DefenseFragment;
+import com.ultimanager.ui.OffenseFragment;
 import com.ultimanager.viewmodels.GameViewModel;
 import com.ultimanager.ui.LineSelectFragment;
 
 
 public class GameTrackerActivity extends AppCompatActivity implements
-        CompletePointTask.EventListener,
         CreatePointTask.EventListener,
         CreatePossessionTask.EventListener,
+        CreateThrowTask.EventListener,
         DefenseFragment.DefenseListener,
-        LineSelectFragment.OnLineSelectedListener {
+        LineSelectFragment.OnLineSelectedListener,
+        OffenseFragment.OnThrowListener,
+        UpdatePointTask.EventListener {
     public final static String EXTRA_GAME_ID = "com.ultimanager.extras.GAME_ID";
     public final static String EXTRA_START_POSITION = "com.ultimanager.extras.START_POSITION";
 
@@ -72,8 +78,9 @@ public class GameTrackerActivity extends AppCompatActivity implements
 
     @Override
     public void onOpponentScored() {
-        new CompletePointTask(this, currentPoint, Point.Result.OPPONENT_SCORED, this)
-                .execute();
+        currentPoint.setResult(Point.Result.OPPONENT_SCORED);
+
+        new UpdatePointTask(this, currentPoint, this).execute();
     }
 
     @Override
@@ -89,20 +96,17 @@ public class GameTrackerActivity extends AppCompatActivity implements
     public void onPointCreated(Point point) {
         currentPoint = point;
 
-        Bundle args = new Bundle();
-        args.putLong(DefenseFragment.ARG_POINT_ID, point.getId());
+        if (currentPosition == GamePosition.DEFENSE) {
+            launchDefense(point);
+        } else {
+            Possession possession = new Possession(point.getId(), Possession.Reason.PULL, null);
 
-        DefenseFragment fragment = new DefenseFragment();
-        fragment.setArguments(args);
-
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-        transaction.replace(R.id.game_tracker_fragment, fragment);
-        transaction.commit();
+            new CreatePossessionTask(this, possession, this).execute();
+        }
     }
 
     @Override
-    public void onPointCompleted(Point point) {
+    public void onPointUpdated(Point point) {
         if (point.getResult() == Point.Result.HOME_SCORED) {
             currentPosition = GamePosition.DEFENSE;
         } else {
@@ -116,7 +120,7 @@ public class GameTrackerActivity extends AppCompatActivity implements
     public void onPossessionCreated(Possession possession) {
         currentPossession = possession;
 
-        Log.v(TAG, "Would switch to offense fragment.");
+        launchOffense(currentPoint);
     }
 
     @Override
@@ -127,8 +131,57 @@ public class GameTrackerActivity extends AppCompatActivity implements
         super.onSaveInstanceState(outState);
     }
 
+    @Override
+    public void onThrowCreated(Throw throw_) {
+        if (throw_.getResult() == Throw.Result.SCORE) {
+            currentPoint.setResult(Point.Result.HOME_SCORED);
+            new UpdatePointTask(this, currentPoint, this).execute();
+        } else if (throw_.getResult() == Throw.Result.TURN) {
+            currentPosition = GamePosition.DEFENSE;
+            launchDefense(currentPoint);
+        }
+    }
+
+    @Override
+    public void onThrowRecorded(Player thrower, Player receiver, Throw.Type type, Throw.Result result) {
+        Throw t = new Throw(
+                currentPossession.getId(),
+                thrower.id,
+                receiver.id,
+                type,
+                result);
+
+        new CreateThrowTask(this, t, this).execute();
+    }
+
+    private void launchDefense(Point point) {
+        Bundle args = new Bundle();
+        args.putLong(DefenseFragment.ARG_POINT_ID, point.getId());
+
+        DefenseFragment fragment = new DefenseFragment();
+        fragment.setArguments(args);
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        transaction.replace(R.id.game_tracker_fragment, fragment);
+        transaction.commit();
+    }
+
     private void launchLineSelection() {
         LineSelectFragment fragment = new LineSelectFragment();
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        transaction.replace(R.id.game_tracker_fragment, fragment);
+        transaction.commit();
+    }
+
+    private void launchOffense(Point point) {
+        Bundle args = new Bundle();
+        args.putLong(OffenseFragment.ARG_POINT_ID, point.getId());
+
+        OffenseFragment fragment = new OffenseFragment();
+        fragment.setArguments(args);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
