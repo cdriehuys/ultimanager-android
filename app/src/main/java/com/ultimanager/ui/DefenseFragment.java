@@ -30,7 +30,7 @@ public class DefenseFragment extends Fragment implements View.OnClickListener {
     private ViewGroup playerViewGroup;
 
     public interface DefenseListener {
-        void onOpponentScored(long pointId);
+        void onOpponentScored();
 
         /**
          * Triggered when the opposing team turns over the disc.
@@ -57,7 +57,7 @@ public class DefenseFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_opponent_scored:
-                eventListener.onOpponentScored(pointId);
+                eventListener.onOpponentScored();
                 break;
             case R.id.btn_throwaway:
                 eventListener.onOpponentTurnover(Possession.Reason.TURN, null);

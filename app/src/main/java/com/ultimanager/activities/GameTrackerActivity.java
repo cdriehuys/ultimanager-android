@@ -2,7 +2,6 @@ package com.ultimanager.activities;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
@@ -10,25 +9,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.ultimanager.R;
-import com.ultimanager.models.AppDatabase;
-import com.ultimanager.models.Game;
 import com.ultimanager.models.GamePosition;
 import com.ultimanager.models.Player;
 import com.ultimanager.models.Point;
-import com.ultimanager.models.PointPlayer;
 import com.ultimanager.models.Possession;
 import com.ultimanager.tasks.CompletePointTask;
 import com.ultimanager.tasks.CreatePointTask;
+import com.ultimanager.tasks.CreatePossessionTask;
 import com.ultimanager.ui.DefenseFragment;
 import com.ultimanager.viewmodels.GameViewModel;
 import com.ultimanager.ui.LineSelectFragment;
-
-import java.lang.ref.WeakReference;
 
 
 public class GameTrackerActivity extends AppCompatActivity implements
         CompletePointTask.EventListener,
         CreatePointTask.EventListener,
+        CreatePossessionTask.EventListener,
         DefenseFragment.DefenseListener,
         LineSelectFragment.OnLineSelectedListener {
     public final static String EXTRA_GAME_ID = "com.ultimanager.extras.GAME_ID";
@@ -41,6 +37,8 @@ public class GameTrackerActivity extends AppCompatActivity implements
     private GamePosition currentPosition;
     private GameViewModel gameViewModel;
     private long gameId;
+    private Point currentPoint;
+    private Possession currentPossession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,19 +71,24 @@ public class GameTrackerActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onOpponentScored(long pointId) {
-        new CompletePointTask(this, pointId, Point.Result.OPPONENT_SCORED, this)
+    public void onOpponentScored() {
+        new CompletePointTask(this, currentPoint, Point.Result.OPPONENT_SCORED, this)
                 .execute();
     }
 
     @Override
     public void onOpponentTurnover(Possession.Reason reason, @Nullable Player defensivePlayer) {
-        // TODO: Save turnover
-        launchLineSelection();
+        Long defensivePlayerId = defensivePlayer == null ? null : defensivePlayer.id;
+
+        Possession possession = new Possession(currentPoint.getId(), reason, defensivePlayerId);
+
+        new CreatePossessionTask(this, possession, this).execute();
     }
 
     @Override
     public void onPointCreated(Point point) {
+        currentPoint = point;
+
         Bundle args = new Bundle();
         args.putLong(DefenseFragment.ARG_POINT_ID, point.getId());
 
@@ -105,8 +108,15 @@ public class GameTrackerActivity extends AppCompatActivity implements
         } else {
             currentPosition = GamePosition.OFFENSE;
         }
-        
+
         launchLineSelection();
+    }
+
+    @Override
+    public void onPossessionCreated(Possession possession) {
+        currentPossession = possession;
+
+        Log.v(TAG, "Would switch to offense fragment.");
     }
 
     @Override

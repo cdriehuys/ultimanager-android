@@ -49,4 +49,5 @@ public abstract class AppDatabase extends RoomDatabase {
     abstract public PlayerDao players();
     abstract public PointPlayerDao pointPlayers();
     abstract public PointDao points();
+    abstract public PossessionDao possessions();
 }

@@ -26,13 +26,13 @@ public class CompletePointTask extends AsyncTask<Void, Void, Point> {
 
     private static final String TAG = CompletePointTask.class.getSimpleName();
 
-    private long pointId;
+    private Point point;
     private Point.Result result;
     private WeakReference<Context> contextWeakReference;
     private WeakReference<EventListener> eventListenerWeakReference;
 
-    public CompletePointTask(Context context, long pointId, Point.Result result, EventListener listener) {
-        this.pointId = pointId;
+    public CompletePointTask(Context context, Point point, Point.Result result, EventListener listener) {
+        this.point = point;
         this.result = result;
 
         this.contextWeakReference = new WeakReference<>(context);
@@ -45,12 +45,12 @@ public class CompletePointTask extends AsyncTask<Void, Void, Point> {
         if (context != null) {
             AppDatabase db = AppDatabase.getAppDatabase(context.getApplicationContext());
 
-            Point point = db.points().getById(pointId);
+            point = db.points().getById(point.getId());
             point.setResult(result);
 
             db.points().updatePoint(point);
 
-            Log.d(TAG, "Set result of point with ID " + pointId + " to " + result.name());
+            Log.d(TAG, "Set result of point with ID " + point.getId() + " to " + result.name());
 
             return point;
         }
