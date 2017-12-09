@@ -2,7 +2,6 @@ package com.ultimanager.ui;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -67,6 +66,7 @@ public class LineSelectFragment extends Fragment implements View.OnClickListener
         recyclerViewAdapter = new Adapter(new ArrayList<>());
 
         PlayerListViewModel viewModel = ViewModelProviders.of(this).get(PlayerListViewModel.class);
+        viewModel.loadAllPlayers();
         viewModel.getPlayerList().observe(this, recyclerViewAdapter::setPlayers);
     }
 

@@ -51,6 +51,7 @@ public class PlayerListActivity extends AppCompatActivity implements View.OnClic
         // Retrieve our view model, which is basically a long living container for our list of
         // players, and listen for changes. If the list changes, the recycler view is updated.
         viewModel = ViewModelProviders.of(this).get(PlayerListViewModel.class);
+        viewModel.loadAllPlayers();
         viewModel.getPlayerList().observe(this, new Observer<List<Player>>() {
             @Override
             public void onChanged(@Nullable List<Player> players) {

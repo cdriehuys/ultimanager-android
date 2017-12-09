@@ -1,4 +1,4 @@
-package com.ultimanager.ui;
+package com.ultimanager.viewmodels;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
@@ -47,7 +47,7 @@ public class GameViewModel extends AndroidViewModel {
 
             Log.v(TAG, "Loading game with ID: " + id);
 
-            return db.gameDao().getById(id);
+            return db.games().getById(id);
         }
 
         @Override

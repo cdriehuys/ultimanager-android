@@ -4,23 +4,27 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.ultimanager.R;
-import com.ultimanager.WelcomeActivity;
 import com.ultimanager.models.AppDatabase;
 import com.ultimanager.models.Game;
+import com.ultimanager.models.Player;
 import com.ultimanager.models.Point;
 import com.ultimanager.models.PointPlayer;
-import com.ultimanager.ui.GameViewModel;
+import com.ultimanager.models.Possession;
+import com.ultimanager.ui.DefenseFragment;
+import com.ultimanager.viewmodels.GameViewModel;
 import com.ultimanager.ui.LineSelectFragment;
 
 import java.lang.ref.WeakReference;
 
 
 public class GameTrackerActivity extends AppCompatActivity implements
+        DefenseFragment.DefenseListener,
         LineSelectFragment.OnLineSelectedListener {
     public final static String EXTRA_GAME_ID = "com.ultimanager.extras.GAME_ID";
 
@@ -48,23 +52,7 @@ public class GameTrackerActivity extends AppCompatActivity implements
 
         gameViewModel = ViewModelProviders.of(this).get(GameViewModel.class);
         gameViewModel.loadGame(gameId);
-        gameViewModel.getGame().observe(this, game -> {
-            LineSelectFragment fragment = new LineSelectFragment();
-
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-            transaction.replace(R.id.game_tracker_fragment, fragment);
-            transaction.commit();
-        });
-    }
-
-    private void handleSelectLineComplete() {
-        Intent intent = new Intent(this, WelcomeActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-        startActivity(intent);
-
-        finish();
+        gameViewModel.getGame().observe(this, game -> launchLineSelection());
     }
 
     @Override
@@ -72,7 +60,48 @@ public class GameTrackerActivity extends AppCompatActivity implements
         new SaveLineTask(this, gameId).execute(selectedPlayerIds);
     }
 
-    private static class SaveLineTask extends AsyncTask<Long, Void, Void> {
+    @Override
+    public void onOpponentScored() {
+        // TODO: Save opponent point
+        launchLineSelection();
+    }
+
+    @Override
+    public void onOpponentTurnover(Possession.Reason reason, @Nullable Player defensivePlayer) {
+        // TODO: Save turnover
+        launchLineSelection();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putLong(STATE_GAME_ID, gameId);
+
+        super.onSaveInstanceState(outState);
+    }
+
+    private void handleSelectLineComplete(long pointId) {
+        Bundle args = new Bundle();
+        args.putLong(DefenseFragment.ARG_POINT_ID, pointId);
+
+        DefenseFragment fragment = new DefenseFragment();
+        fragment.setArguments(args);
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        transaction.replace(R.id.game_tracker_fragment, fragment);
+        transaction.commit();
+    }
+
+    private void launchLineSelection() {
+        LineSelectFragment fragment = new LineSelectFragment();
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        transaction.replace(R.id.game_tracker_fragment, fragment);
+        transaction.commit();
+    }
+
+    private static class SaveLineTask extends AsyncTask<Long, Void, Point> {
         private long gameId;
         private WeakReference<GameTrackerActivity> activityReference;
 
@@ -82,7 +111,7 @@ public class GameTrackerActivity extends AppCompatActivity implements
         }
 
         @Override
-        protected Void doInBackground(Long... playerIds) {
+        protected Point doInBackground(Long... playerIds) {
             GameTrackerActivity activity = activityReference.get();
             if (activity != null) {
                 AppDatabase db = AppDatabase.getAppDatabase(activity.getApplicationContext());
@@ -91,25 +120,27 @@ public class GameTrackerActivity extends AppCompatActivity implements
 
                 Point point = new Point(game.id, Point.Result.IN_PROGRESS);
 
-                long pointId = db.points().addPoint(point);
+                point.setId(db.points().addPoint(point));
 
                 for (Long id : playerIds) {
                     PointPlayer pointPlayer = new PointPlayer();
                     pointPlayer.playerId = id;
-                    pointPlayer.pointId = pointId;
+                    pointPlayer.pointId = point.getId();
 
                     db.pointPlayers().addPointPlayer(pointPlayer);
                 }
+
+                return point;
             }
 
             return null;
         }
 
         @Override
-        protected void onPostExecute(Void result) {
+        protected void onPostExecute(Point point) {
             GameTrackerActivity activity = activityReference.get();
-            if (activity != null) {
-                activity.handleSelectLineComplete();
+            if (activity != null && point != null) {
+                activity.handleSelectLineComplete(point.getId());
             }
         }
     }
