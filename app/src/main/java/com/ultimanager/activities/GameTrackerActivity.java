@@ -16,6 +16,7 @@ import com.ultimanager.models.Player;
 import com.ultimanager.models.Point;
 import com.ultimanager.models.PointPlayer;
 import com.ultimanager.models.Possession;
+import com.ultimanager.tasks.CreatePointTask;
 import com.ultimanager.ui.DefenseFragment;
 import com.ultimanager.viewmodels.GameViewModel;
 import com.ultimanager.ui.LineSelectFragment;
@@ -24,6 +25,7 @@ import java.lang.ref.WeakReference;
 
 
 public class GameTrackerActivity extends AppCompatActivity implements
+        CreatePointTask.EventListener,
         DefenseFragment.DefenseListener,
         LineSelectFragment.OnLineSelectedListener {
     public final static String EXTRA_GAME_ID = "com.ultimanager.extras.GAME_ID";
@@ -57,7 +59,8 @@ public class GameTrackerActivity extends AppCompatActivity implements
 
     @Override
     public void lineSelected(Long[] selectedPlayerIds) {
-        new SaveLineTask(this, gameId).execute(selectedPlayerIds);
+        new CreatePointTask(this, gameViewModel.getGame().getValue(), this)
+                .execute(selectedPlayerIds);
     }
 
     @Override
@@ -73,15 +76,9 @@ public class GameTrackerActivity extends AppCompatActivity implements
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putLong(STATE_GAME_ID, gameId);
-
-        super.onSaveInstanceState(outState);
-    }
-
-    private void handleSelectLineComplete(long pointId) {
+    public void onPointCreated(Point point) {
         Bundle args = new Bundle();
-        args.putLong(DefenseFragment.ARG_POINT_ID, pointId);
+        args.putLong(DefenseFragment.ARG_POINT_ID, point.getId());
 
         DefenseFragment fragment = new DefenseFragment();
         fragment.setArguments(args);
@@ -92,6 +89,13 @@ public class GameTrackerActivity extends AppCompatActivity implements
         transaction.commit();
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putLong(STATE_GAME_ID, gameId);
+
+        super.onSaveInstanceState(outState);
+    }
+
     private void launchLineSelection() {
         LineSelectFragment fragment = new LineSelectFragment();
 
@@ -99,49 +103,5 @@ public class GameTrackerActivity extends AppCompatActivity implements
 
         transaction.replace(R.id.game_tracker_fragment, fragment);
         transaction.commit();
-    }
-
-    private static class SaveLineTask extends AsyncTask<Long, Void, Point> {
-        private long gameId;
-        private WeakReference<GameTrackerActivity> activityReference;
-
-        SaveLineTask(GameTrackerActivity activity, long gameId) {
-            activityReference = new WeakReference<>(activity);
-            this.gameId = gameId;
-        }
-
-        @Override
-        protected Point doInBackground(Long... playerIds) {
-            GameTrackerActivity activity = activityReference.get();
-            if (activity != null) {
-                AppDatabase db = AppDatabase.getAppDatabase(activity.getApplicationContext());
-
-                Game game = db.games().getById(gameId);
-
-                Point point = new Point(game.id, Point.Result.IN_PROGRESS);
-
-                point.setId(db.points().addPoint(point));
-
-                for (Long id : playerIds) {
-                    PointPlayer pointPlayer = new PointPlayer();
-                    pointPlayer.playerId = id;
-                    pointPlayer.pointId = point.getId();
-
-                    db.pointPlayers().addPointPlayer(pointPlayer);
-                }
-
-                return point;
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Point point) {
-            GameTrackerActivity activity = activityReference.get();
-            if (activity != null && point != null) {
-                activity.handleSelectLineComplete(point.getId());
-            }
-        }
     }
 }
