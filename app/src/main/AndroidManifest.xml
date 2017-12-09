@@ -27,7 +27,8 @@
         <activity android:name=".activities.SetTeamnameActivity" />
         <activity android:name=".activities.GameCompleteActivity" />
         <activity android:name=".activities.LineSelectActivity" />
-        <activity android:name=".activities.GameScoreActivity"></activity>
+        <activity android:name=".activities.GameScoreActivity"/>
+
     </application>
 
 </manifest>
