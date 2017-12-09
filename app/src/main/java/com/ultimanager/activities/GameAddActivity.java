@@ -53,6 +53,7 @@ public class GameAddActivity extends AppCompatActivity {
         Intent intent = new Intent(this, GameTrackerActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(GameTrackerActivity.EXTRA_GAME_ID, game.id);
+        intent.putExtra(GameTrackerActivity.EXTRA_START_POSITION, game.startPosition.name());
 
         startActivity(intent);
     }
