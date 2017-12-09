@@ -21,9 +21,6 @@
         <activity android:name=".activities.PlayerDetailActivity" />
         <activity android:name=".activities.GameAddActivity" />
         <activity android:name=".activities.GameListActivity" />
-        <activity android:name=".activities.ThrowEventActivity" />
-        <activity android:name=".activities.StartingOnActivity" />
-        <activity android:name=".activities.DPointActivity" />
         <activity android:name=".activities.SetTeamnameActivity" />
         <activity android:name=".activities.GameCompleteActivity" />
         <activity android:name=".activities.GameTrackerActivity" />

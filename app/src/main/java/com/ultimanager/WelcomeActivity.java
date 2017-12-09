@@ -1,6 +1,5 @@
 package com.ultimanager;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -8,9 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.ultimanager.activities.DPointActivity;
 import com.ultimanager.activities.GameAddActivity;
 import com.ultimanager.activities.GameListActivity;
 import com.ultimanager.activities.PlayerListActivity;
@@ -42,7 +39,6 @@ public class WelcomeActivity extends AppCompatActivity {
                 launchNewGameActivity();
                 break;
             case R.id.btn_view_stats:
-                launch();
                 break;
             case R.id.btn_teamname:
                 launchSetTeamnameActivity();
@@ -70,11 +66,6 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private void launchPlayerList() {
         Intent intent = new Intent(this, PlayerListActivity.class);
-        startActivity(intent);
-    }
-
-    private void launch(){
-        Intent intent = new Intent(this, DPointActivity.class);
         startActivity(intent);
     }
 
