@@ -1,10 +1,12 @@
 package com.ultimanager.activities;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.ultimanager.R;
 import com.ultimanager.WelcomeActivity;
@@ -12,14 +14,20 @@ import com.ultimanager.models.AppDatabase;
 import com.ultimanager.models.Game;
 import com.ultimanager.models.Point;
 import com.ultimanager.models.PointPlayer;
+import com.ultimanager.ui.GameViewModel;
 import com.ultimanager.ui.LineSelectFragment;
 
 import java.lang.ref.WeakReference;
 
 
-public class GameTrackerActivity extends AppCompatActivity implements LineSelectFragment.OnLineSelectedListener {
+public class GameTrackerActivity extends AppCompatActivity implements
+        LineSelectFragment.OnLineSelectedListener {
     public final static String EXTRA_GAME_ID = "com.ultimanager.extras.GAME_ID";
 
+    private final static String STATE_GAME_ID = "GAME_ID";
+    private final static String TAG = GameTrackerActivity.class.getSimpleName();
+
+    private GameViewModel gameViewModel;
     private long gameId;
 
     @Override
@@ -27,15 +35,27 @@ public class GameTrackerActivity extends AppCompatActivity implements LineSelect
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_tracker);
 
-        Intent intent = getIntent();
-        gameId = intent.getLongExtra(EXTRA_GAME_ID, -1);
+        if (savedInstanceState == null) {
+            Log.v(TAG, "Pulling game tracker state from intent.");
 
-        LineSelectFragment fragment = new LineSelectFragment();
+            Intent intent = getIntent();
+            gameId = intent.getLongExtra(EXTRA_GAME_ID, -1);
+        } else {
+            Log.v(TAG, "Restoring previous game tracker state.");
 
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            gameId = savedInstanceState.getLong(STATE_GAME_ID, -1);
+        }
 
-        transaction.replace(R.id.game_tracker_fragment, fragment);
-        transaction.commit();
+        gameViewModel = ViewModelProviders.of(this).get(GameViewModel.class);
+        gameViewModel.loadGame(gameId);
+        gameViewModel.getGame().observe(this, game -> {
+            LineSelectFragment fragment = new LineSelectFragment();
+
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+            transaction.replace(R.id.game_tracker_fragment, fragment);
+            transaction.commit();
+        });
     }
 
     private void handleSelectLineComplete() {
