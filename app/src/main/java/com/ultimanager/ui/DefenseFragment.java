@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 import com.ultimanager.R;
 import com.ultimanager.models.Player;
 import com.ultimanager.models.Possession;
-import com.ultimanager.viewmodels.PlayerListViewModel;
+import com.ultimanager.viewmodels.PlayerViewModel;
 
 import java.util.List;
 
@@ -91,9 +91,8 @@ public class DefenseFragment extends Fragment implements View.OnClickListener {
 
         playerViewGroup = fragmentRoot.findViewById(R.id.defense_player_buttons);
 
-        PlayerListViewModel playerList = ViewModelProviders.of(this).get(PlayerListViewModel.class);
-        playerList.loadPlayersForPoint(pointId);
-        playerList.getPlayerList().observe(this, this::displayPlayerButtons);
+        PlayerViewModel playerList = ViewModelProviders.of(this).get(PlayerViewModel.class);
+        playerList.getPlayersForPoint(pointId).observe(this, this::displayPlayerButtons);
 
         return fragmentRoot;
     }

@@ -19,7 +19,7 @@ import android.widget.RadioButton;
 import com.ultimanager.R;
 import com.ultimanager.models.Player;
 import com.ultimanager.models.Throw;
-import com.ultimanager.viewmodels.PlayerListViewModel;
+import com.ultimanager.viewmodels.PlayerViewModel;
 
 import java.util.List;
 
@@ -38,7 +38,7 @@ public class OffenseFragment extends Fragment implements RadioButton.OnClickList
     private long pointId;
     private Player receiver;
     private Player thrower;
-    private PlayerListViewModel playerListViewModel;
+    private PlayerViewModel playerViewModel;
     private RadioButton backhandRadio;
     private RadioButton completionRadio;
     private RadioButton flickRadio;
@@ -116,9 +116,8 @@ public class OffenseFragment extends Fragment implements RadioButton.OnClickList
         goalRadio.setOnClickListener(this);
         turnoverRadio.setOnClickListener(this);
 
-        playerListViewModel = ViewModelProviders.of(this).get(PlayerListViewModel.class);
-        playerListViewModel.loadPlayersForPoint(pointId);
-        playerListViewModel.getPlayerList().observe(this, this::resetUI);
+        playerViewModel = ViewModelProviders.of(this).get(PlayerViewModel.class);
+        playerViewModel.getPlayersForPoint(pointId).observe(this, this::resetUI);
 
         return fragmentRoot;
     }
@@ -150,7 +149,7 @@ public class OffenseFragment extends Fragment implements RadioButton.OnClickList
 
         onThrowListener.onThrowRecorded(thrower, receiver, throwType, throwResult);
 
-        resetUI(playerListViewModel.getPlayerList().getValue());
+        resetUI(playerViewModel.getPlayerList().getValue());
     }
 
     private void resetUI(List<Player> players) {

@@ -24,13 +24,13 @@ public interface PlayerDao {
      * @return A list of all the players in the database.
      */
     @Query("SELECT * from Player ORDER BY name ASC")
-    List<Player> getAllPlayers();
+    LiveData<List<Player>> getAllPlayers();
 
     @Query("SELECT Player.* FROM PointPlayer " +
            "LEFT JOIN Point ON PointPlayer.point_id = Point.id " +
            "JOIN Player ON PointPlayer.player_id = Player.id " +
            "WHERE Point.id = :pointId")
-    List<Player> getPlayersForPoint(long pointId);
+    LiveData<List<Player>> getPlayersForPoint(long pointId);
 
     /**
      * Get a player by ID.
@@ -40,7 +40,7 @@ public interface PlayerDao {
      * @return The player with the given ID.
      */
     @Query("SELECT * FROM Player WHERE id = :id")
-    Player getPlayerById(int id);
+    LiveData<Player> getPlayerById(long id);
 
     /**
      * Insert new players in the database.

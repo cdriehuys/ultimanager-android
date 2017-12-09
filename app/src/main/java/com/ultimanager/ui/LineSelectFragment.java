@@ -19,7 +19,7 @@ import com.bignerdranch.android.multiselector.MultiSelector;
 import com.bignerdranch.android.multiselector.SwappingHolder;
 import com.ultimanager.R;
 import com.ultimanager.models.Player;
-import com.ultimanager.viewmodels.PlayerListViewModel;
+import com.ultimanager.viewmodels.PlayerViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,8 +65,7 @@ public class LineSelectFragment extends Fragment implements View.OnClickListener
 
         recyclerViewAdapter = new Adapter(new ArrayList<>());
 
-        PlayerListViewModel viewModel = ViewModelProviders.of(this).get(PlayerListViewModel.class);
-        viewModel.loadAllPlayers();
+        PlayerViewModel viewModel = ViewModelProviders.of(this).get(PlayerViewModel.class);
         viewModel.getPlayerList().observe(this, recyclerViewAdapter::setPlayers);
     }
 
