@@ -12,10 +12,12 @@ import android.util.Log;
 import com.ultimanager.R;
 import com.ultimanager.models.AppDatabase;
 import com.ultimanager.models.Game;
+import com.ultimanager.models.GamePosition;
 import com.ultimanager.models.Player;
 import com.ultimanager.models.Point;
 import com.ultimanager.models.PointPlayer;
 import com.ultimanager.models.Possession;
+import com.ultimanager.tasks.CompletePointTask;
 import com.ultimanager.tasks.CreatePointTask;
 import com.ultimanager.ui.DefenseFragment;
 import com.ultimanager.viewmodels.GameViewModel;
@@ -25,14 +27,18 @@ import java.lang.ref.WeakReference;
 
 
 public class GameTrackerActivity extends AppCompatActivity implements
+        CompletePointTask.EventListener,
         CreatePointTask.EventListener,
         DefenseFragment.DefenseListener,
         LineSelectFragment.OnLineSelectedListener {
     public final static String EXTRA_GAME_ID = "com.ultimanager.extras.GAME_ID";
+    public final static String EXTRA_START_POSITION = "com.ultimanager.extras.START_POSITION";
 
+    private final static String STATE_CURRENT_POSITION = "CURRENT_POSITION";
     private final static String STATE_GAME_ID = "GAME_ID";
     private final static String TAG = GameTrackerActivity.class.getSimpleName();
 
+    private GamePosition currentPosition;
     private GameViewModel gameViewModel;
     private long gameId;
 
@@ -45,10 +51,13 @@ public class GameTrackerActivity extends AppCompatActivity implements
             Log.v(TAG, "Pulling game tracker state from intent.");
 
             Intent intent = getIntent();
+            currentPosition = GamePosition.valueOf(intent.getStringExtra(EXTRA_START_POSITION));
             gameId = intent.getLongExtra(EXTRA_GAME_ID, -1);
         } else {
             Log.v(TAG, "Restoring previous game tracker state.");
 
+            currentPosition = GamePosition.valueOf(
+                    savedInstanceState.getString(STATE_CURRENT_POSITION));
             gameId = savedInstanceState.getLong(STATE_GAME_ID, -1);
         }
 
@@ -64,9 +73,9 @@ public class GameTrackerActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onOpponentScored() {
-        // TODO: Save opponent point
-        launchLineSelection();
+    public void onOpponentScored(long pointId) {
+        new CompletePointTask(this, pointId, Point.Result.OPPONENT_SCORED, this)
+                .execute();
     }
 
     @Override
@@ -90,7 +99,19 @@ public class GameTrackerActivity extends AppCompatActivity implements
     }
 
     @Override
+    public void onPointCompleted(Point point) {
+        if (point.getResult() == Point.Result.HOME_SCORED) {
+            currentPosition = GamePosition.DEFENSE;
+        } else {
+            currentPosition = GamePosition.OFFENSE;
+        }
+        
+        launchLineSelection();
+    }
+
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
+        outState.putString(STATE_CURRENT_POSITION, currentPosition.name());
         outState.putLong(STATE_GAME_ID, gameId);
 
         super.onSaveInstanceState(outState);
