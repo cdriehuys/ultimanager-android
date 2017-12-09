@@ -6,7 +6,6 @@ import android.arch.lifecycle.LiveData;
 
 import com.ultimanager.models.AppDatabase;
 import com.ultimanager.models.Game;
-import com.ultimanager.models.Player;
 
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class GameListViewModel extends AndroidViewModel {
         super(app);
 
         AppDatabase db = AppDatabase.getAppDatabase(getApplication());
-        gameList = db.gameDao().getAllGames();
+        gameList = db.games().getAllGames();
     }
 
     /**

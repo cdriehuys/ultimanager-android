@@ -7,11 +7,11 @@ Android client for the [UltiManager API](https://github.com/cdriehuys/ultimanage
 
 Here's some resources used while developing the app.
 
-### [Persisting Data in a Database](room-persistence)
+### [Persisting Data in a Database][room-persistence]
 
 Google's official guide to using Room, their wrapper around SQLite. Room simplifies the whole process of setting up databases and tables using Java classes and annotations. TL;DR: Less SQL, more Java.
 
-### [Listing Items from a Database](listing-db-items)
+### [Listing Items from a Database][listing-db-items]
 
 This page describes the entire process going from setting up the models in the database to querying for them and listing them using a `RecyclerView`.
 

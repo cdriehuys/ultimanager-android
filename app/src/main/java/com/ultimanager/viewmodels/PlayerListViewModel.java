@@ -3,6 +3,9 @@ package com.ultimanager.viewmodels;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
+import android.os.AsyncTask;
+import android.util.Log;
 
 import com.ultimanager.models.AppDatabase;
 import com.ultimanager.models.Player;
@@ -17,7 +20,9 @@ import java.util.List;
  * orientation changes.
  */
 public class PlayerListViewModel extends AndroidViewModel {
-    private final LiveData<List<Player>> playerList;
+    private final MutableLiveData<List<Player>> playerList = new MutableLiveData<>();
+
+    private AppDatabase db;
 
     /**
      * Create a new view model to store a list of players.
@@ -29,8 +34,7 @@ public class PlayerListViewModel extends AndroidViewModel {
     public PlayerListViewModel(Application app) {
         super(app);
 
-        AppDatabase db = AppDatabase.getAppDatabase(this.getApplication());
-        playerList = db.playerDao().getAllPlayers();
+        db = AppDatabase.getAppDatabase(this.getApplication());
     }
 
     /**
@@ -40,5 +44,63 @@ public class PlayerListViewModel extends AndroidViewModel {
      */
     public LiveData<List<Player>> getPlayerList() {
         return playerList;
+    }
+
+    public void loadAllPlayers() {
+        new LoadPlayersTask(db, playerList).execute();
+    }
+
+    public void loadPlayersForPoint(long pointId) {
+        new LoadPointPlayersTask(db, playerList).execute(pointId);
+    }
+
+    private static class LoadPlayersTask extends AsyncTask<Void, Void, List<Player>> {
+        private final static String TAG = LoadPlayersTask.class.getSimpleName();
+
+        private AppDatabase db;
+        private MutableLiveData<List<Player>> playerLiveData;
+
+        LoadPlayersTask(AppDatabase db, MutableLiveData<List<Player>> playerLiveData) {
+            this.db = db;
+            this.playerLiveData = playerLiveData;
+        }
+
+        @Override
+        protected List<Player> doInBackground(Void... args) {
+            Log.v(TAG, "Loading all players.");
+
+            return db.players().getAllPlayers();
+        }
+
+        @Override
+        protected void onPostExecute(List<Player> players) {
+            playerLiveData.setValue(players);
+        }
+    }
+
+    private static class LoadPointPlayersTask extends AsyncTask<Long, Void, List<Player>> {
+        private final static String TAG = LoadPlayersTask.class.getSimpleName();
+
+        private AppDatabase db;
+        private MutableLiveData<List<Player>> playerLiveData;
+
+        LoadPointPlayersTask(AppDatabase db, MutableLiveData<List<Player>> playerLiveData) {
+            this.db = db;
+            this.playerLiveData = playerLiveData;
+        }
+
+        @Override
+        protected List<Player> doInBackground(Long... pointIds) {
+            long id = pointIds[0];
+
+            Log.v(TAG, "Loading players for point with ID: " + id);
+
+            return db.players().getPlayersForPoint(id);
+        }
+
+        @Override
+        protected void onPostExecute(List<Player> players) {
+            playerLiveData.setValue(players);
+        }
     }
 }

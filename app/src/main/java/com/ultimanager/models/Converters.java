@@ -48,6 +48,11 @@ public class Converters {
         return position.name();
     }
 
+    @TypeConverter
+    public PlayerRole playerRoleFromString(String roleName) {
+        return PlayerRole.valueOf(roleName);
+    }
+
     /**
      * Convert a player role into a string.
      *
@@ -60,15 +65,43 @@ public class Converters {
         return role.name();
     }
 
-    /**
-     * Convert the name of a player role back to its Enum form.
-     *
-     * @param roleName The string name of the role to convert.
-     *
-     * @return The player role constant that matches the provided name.
-     */
     @TypeConverter
-    public PlayerRole roleNameFromString(String roleName) {
-        return PlayerRole.valueOf(roleName);
+    public Point.Result pointResultFromString(String resultName) {
+        return Point.Result.valueOf(resultName);
+    }
+
+    @TypeConverter
+    public String pointResultToString(Point.Result result) {
+        return result.name();
+    }
+
+    @TypeConverter
+    public Possession.Reason posessionReasonFromString(String name) {
+        return Possession.Reason.valueOf(name);
+    }
+
+    @TypeConverter
+    public String posessionReasonToString(Possession.Reason reason) {
+        return reason.name();
+    }
+
+    @TypeConverter
+    public Throw.Result throwResultFromString(String name) {
+        return Throw.Result.valueOf(name);
+    }
+
+    @TypeConverter
+    public String throwResultToString(Throw.Result result) {
+        return result.name();
+    }
+
+    @TypeConverter
+    public Throw.Type throwTypeFromString(String name) {
+        return Throw.Type.valueOf(name);
+    }
+
+    @TypeConverter
+    public String throwTypeToString(Throw.Type type) {
+        return type.name();
     }
 }
