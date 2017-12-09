@@ -23,11 +23,10 @@ public class GameCompleteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_complete);
 
-         winningTeamname = "welp";
+        winningTeamname = "welp";
 
         score_us = 5;
         score_them = 4;
-
     }
 
     private void setDisplay(){

@@ -26,7 +26,11 @@
         <activity android:name=".activities.DPointActivity" />
         <activity android:name=".activities.SetTeamnameActivity" />
         <activity android:name=".activities.GameCompleteActivity" />
+
+        <activity android:name=".activities.LineSelectActivity" />
+        <activity android:name=".activities.GameScoreActivity"/>
         <activity android:name=".activities.GameTrackerActivity" />
+
     </application>
 
 </manifest>
