@@ -24,7 +24,13 @@ public interface PlayerDao {
      * @return A list of all the players in the database.
      */
     @Query("SELECT * from Player ORDER BY name ASC")
-    LiveData<List<Player>> getAllPlayers();
+    List<Player> getAllPlayers();
+
+    @Query("SELECT Player.* FROM PointPlayer " +
+           "LEFT JOIN Point ON PointPlayer.point_id = Point.id " +
+           "JOIN Player ON PointPlayer.player_id = Player.id " +
+           "WHERE Point.id = :pointId")
+    List<Player> getPlayersForPoint(long pointId);
 
     /**
      * Get a player by ID.
