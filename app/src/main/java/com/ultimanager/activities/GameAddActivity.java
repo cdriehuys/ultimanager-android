@@ -54,6 +54,7 @@ public class GameAddActivity extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(GameTrackerActivity.EXTRA_GAME_ID, game.id);
         intent.putExtra(GameTrackerActivity.EXTRA_START_POSITION, game.startPosition.name());
+        intent.putExtra(GameTrackerActivity.EXTRA_OPP_TEAMNAME, game.opposingTeam);
 
         startActivity(intent);
     }

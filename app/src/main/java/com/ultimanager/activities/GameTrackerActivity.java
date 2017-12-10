@@ -37,6 +37,8 @@ public class GameTrackerActivity extends AppCompatActivity implements
         UpdatePointTask.EventListener {
     public final static String EXTRA_GAME_ID = "com.ultimanager.extras.GAME_ID";
     public final static String EXTRA_START_POSITION = "com.ultimanager.extras.START_POSITION";
+    public final static String EXTRA_OPP_TEAMNAME = "com.ultimanager.extras.OPP_TEAMNAME";
+
 
     public final static int GAME_PLAYED_TO = 1;
 
@@ -49,6 +51,7 @@ public class GameTrackerActivity extends AppCompatActivity implements
     private long gameId;
     private Point currentPoint;
     private Possession currentPossession;
+    private String awayNameStr;
 
 
 
@@ -57,12 +60,14 @@ public class GameTrackerActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_tracker);
 
+         awayNameStr = "opponent team";
         if (savedInstanceState == null) {
             Log.v(TAG, "Pulling game tracker state from intent.");
 
             Intent intent = getIntent();
             currentPosition = GamePosition.valueOf(intent.getStringExtra(EXTRA_START_POSITION));
             gameId = intent.getLongExtra(EXTRA_GAME_ID, -1);
+             awayNameStr= intent.getStringExtra(EXTRA_OPP_TEAMNAME);
         } else {
             Log.v(TAG, "Restoring previous game tracker state.");
 
@@ -76,6 +81,10 @@ public class GameTrackerActivity extends AppCompatActivity implements
 
         TextView homeTeamName = findViewById(R.id.tv_home_team);
         homeTeamName.setText(getTeamnameText());
+
+        TextView awayTeamName = findViewById(R.id.tv_away_team);
+
+        awayTeamName.setText(awayNameStr);
     }
 
     @Override
@@ -125,14 +134,14 @@ public class GameTrackerActivity extends AppCompatActivity implements
         if (point.getResult() == Point.Result.HOME_SCORED) {
             hs++;
             if(hs == GAME_PLAYED_TO){
-                launchGameCompleteActivity(getTeamnameText(), hs, as);
+                launchGameCompleteActivity(getTeamnameText(), awayNameStr, hs, as);
             }
             home_score.setText(hs+"");
             currentPosition = GamePosition.DEFENSE;
         } else {
             as++;
             if(as == GAME_PLAYED_TO){
-                launchGameCompleteActivity("The Other Team", hs, as);
+                launchGameCompleteActivity(awayNameStr, awayNameStr, hs, as);
             }
             away_score.setText(as+"");
             currentPosition = GamePosition.OFFENSE;
@@ -213,12 +222,13 @@ public class GameTrackerActivity extends AppCompatActivity implements
         transaction.commit();
     }
 
-    private void launchGameCompleteActivity(String whoWon, int homescore, int awayscore){
+    private void launchGameCompleteActivity(String whoWon,String opp_team, int homescore, int awayscore){
 
         Intent intent = new Intent(this, GameCompleteActivity.class);
         intent.putExtra(GameCompleteActivity.EXTRA_WHO_WON, whoWon);
         intent.putExtra(GameCompleteActivity.EXTRA_HOME_SCORE, homescore);
         intent.putExtra(GameCompleteActivity.EXTRA_AWAY_SCORE, awayscore);
+        intent.putExtra(GameCompleteActivity.EXTRA_OPP_TEAM, opp_team);
         startActivity(intent);
     }
 

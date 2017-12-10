@@ -1,6 +1,8 @@
 package com.ultimanager.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -17,10 +19,14 @@ public class GameCompleteActivity extends AppCompatActivity {
     public final static String EXTRA_WHO_WON = "com.ultimanager.extras.WHO_WON";
     public final static String EXTRA_HOME_SCORE = "com.ultimanager.extras.HOME_SCORE";
     public final static String EXTRA_AWAY_SCORE = "com.ultimanager.extras.AWAY_SCORE";
+    public final static String EXTRA_OPP_TEAM = "com.ultimanager.extras.AWAY_NAME";
+
 
 
     int score_us, score_them;
     String winningTeamname;
+    String otherTeamName;
+    String homeTeamName;
 
 
     @Override
@@ -33,6 +39,10 @@ public class GameCompleteActivity extends AppCompatActivity {
 
         winningTeamname = intent.getStringExtra(EXTRA_WHO_WON);
 
+        otherTeamName = intent.getStringExtra(EXTRA_OPP_TEAM);
+
+        homeTeamName = getTeamnameText();
+
         score_us = intent.getIntExtra(EXTRA_HOME_SCORE, -1);
         score_them = intent.getIntExtra(EXTRA_AWAY_SCORE, -1);
 
@@ -44,7 +54,7 @@ public class GameCompleteActivity extends AppCompatActivity {
         TextView score = findViewById(R.id.tv_score);
 
         winner.setText(winningTeamname + "\nwon the game\n");
-        score.setText("The final score was\n"+"Our Score: " + score_us + "\n"+"The Other Team" + "'s Score: "+score_them);
+        score.setText("The final score was\n"+homeTeamName+"'s Score: " + score_us + "\n" + otherTeamName + "'s Score: "+score_them);
     }
 
 
@@ -59,6 +69,15 @@ public class GameCompleteActivity extends AppCompatActivity {
     private void launchWelcomeActivity(){
         Intent intent = new Intent(this, WelcomeActivity.class);
         startActivity(intent);
+    }
+
+    private String getTeamnameText(){
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        String name = sp.getString("teamname","");
+        if(name.length() < 1) {
+            return "Your Team";
+        }
+        return "" + name;
     }
 }
 
