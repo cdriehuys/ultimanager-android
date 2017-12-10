@@ -3,7 +3,9 @@ package com.ultimanager.tasks;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.TextView;
 
+import com.ultimanager.R;
 import com.ultimanager.models.AppDatabase;
 import com.ultimanager.models.Game;
 import com.ultimanager.models.Point;
@@ -26,6 +28,8 @@ public class CompletePointTask extends AsyncTask<Void, Void, Point> {
 
     private static final String TAG = CompletePointTask.class.getSimpleName();
 
+
+
     private Point point;
     private Point.Result result;
     private WeakReference<Context> contextWeakReference;
@@ -34,6 +38,7 @@ public class CompletePointTask extends AsyncTask<Void, Void, Point> {
     public CompletePointTask(Context context, Point point, Point.Result result, EventListener listener) {
         this.point = point;
         this.result = result;
+
 
         this.contextWeakReference = new WeakReference<>(context);
         this.eventListenerWeakReference = new WeakReference<>(listener);

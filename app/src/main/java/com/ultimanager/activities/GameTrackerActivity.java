@@ -2,11 +2,14 @@ package com.ultimanager.activities;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.ultimanager.R;
 import com.ultimanager.models.GamePosition;
@@ -14,7 +17,6 @@ import com.ultimanager.models.Player;
 import com.ultimanager.models.Point;
 import com.ultimanager.models.Possession;
 import com.ultimanager.models.Throw;
-import com.ultimanager.tasks.CompletePointTask;
 import com.ultimanager.tasks.CreatePointTask;
 import com.ultimanager.tasks.CreatePossessionTask;
 import com.ultimanager.tasks.UpdatePointTask;
@@ -36,6 +38,8 @@ public class GameTrackerActivity extends AppCompatActivity implements
     public final static String EXTRA_GAME_ID = "com.ultimanager.extras.GAME_ID";
     public final static String EXTRA_START_POSITION = "com.ultimanager.extras.START_POSITION";
 
+    public final static int GAME_PLAYED_TO = 1;
+
     private final static String STATE_CURRENT_POSITION = "CURRENT_POSITION";
     private final static String STATE_GAME_ID = "GAME_ID";
     private final static String TAG = GameTrackerActivity.class.getSimpleName();
@@ -45,6 +49,8 @@ public class GameTrackerActivity extends AppCompatActivity implements
     private long gameId;
     private Point currentPoint;
     private Possession currentPossession;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +73,9 @@ public class GameTrackerActivity extends AppCompatActivity implements
         gameViewModel = ViewModelProviders.of(this).get(GameViewModel.class);
         gameViewModel.loadGame(gameId);
         gameViewModel.getGame().observe(this, game -> launchLineSelection());
+
+        TextView homeTeamName = findViewById(R.id.tv_home_team);
+        homeTeamName.setText(getTeamnameText());
     }
 
     @Override
@@ -106,9 +115,26 @@ public class GameTrackerActivity extends AppCompatActivity implements
 
     @Override
     public void onPointUpdated(Point point) {
+
+        TextView home_score =  findViewById(R.id.tv_home_score);
+        TextView away_score =  findViewById(R.id.tv_away_score);
+
+        int hs = Integer.parseInt(home_score.getText().toString());
+        int as = Integer.parseInt(away_score.getText().toString());
+
         if (point.getResult() == Point.Result.HOME_SCORED) {
+            hs++;
+            if(hs == GAME_PLAYED_TO){
+                launchGameCompleteActivity(getTeamnameText(), hs, as);
+            }
+            home_score.setText(hs+"");
             currentPosition = GamePosition.DEFENSE;
         } else {
+            as++;
+            if(as == GAME_PLAYED_TO){
+                launchGameCompleteActivity("The Other Team", hs, as);
+            }
+            away_score.setText(as+"");
             currentPosition = GamePosition.OFFENSE;
         }
 
@@ -118,7 +144,6 @@ public class GameTrackerActivity extends AppCompatActivity implements
     @Override
     public void onPossessionCreated(Possession possession) {
         currentPossession = possession;
-
         launchOffense(currentPoint);
     }
 
@@ -186,5 +211,23 @@ public class GameTrackerActivity extends AppCompatActivity implements
 
         transaction.replace(R.id.game_tracker_fragment, fragment);
         transaction.commit();
+    }
+
+    private void launchGameCompleteActivity(String whoWon, int homescore, int awayscore){
+
+        Intent intent = new Intent(this, GameCompleteActivity.class);
+        intent.putExtra(GameCompleteActivity.EXTRA_WHO_WON, whoWon);
+        intent.putExtra(GameCompleteActivity.EXTRA_HOME_SCORE, homescore);
+        intent.putExtra(GameCompleteActivity.EXTRA_AWAY_SCORE, awayscore);
+        startActivity(intent);
+    }
+
+    private String getTeamnameText(){
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        String name = sp.getString("teamname","");
+        if(name.length() < 1) {
+            return "Your Team";
+        }
+        return "" + name;
     }
 }

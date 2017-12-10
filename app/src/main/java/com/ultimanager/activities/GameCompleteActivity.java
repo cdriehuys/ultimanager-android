@@ -14,6 +14,11 @@ import org.w3c.dom.Text;
 
 public class GameCompleteActivity extends AppCompatActivity {
 
+    public final static String EXTRA_WHO_WON = "com.ultimanager.extras.WHO_WON";
+    public final static String EXTRA_HOME_SCORE = "com.ultimanager.extras.HOME_SCORE";
+    public final static String EXTRA_AWAY_SCORE = "com.ultimanager.extras.AWAY_SCORE";
+
+
     int score_us, score_them;
     String winningTeamname;
 
@@ -23,11 +28,15 @@ public class GameCompleteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_complete);
 
-         winningTeamname = "welp";
+        Intent intent = getIntent();
 
-        score_us = 5;
-        score_them = 4;
 
+        winningTeamname = intent.getStringExtra(EXTRA_WHO_WON);
+
+        score_us = intent.getIntExtra(EXTRA_HOME_SCORE, -1);
+        score_them = intent.getIntExtra(EXTRA_AWAY_SCORE, -1);
+
+        setDisplay();
     }
 
     private void setDisplay(){
@@ -35,19 +44,19 @@ public class GameCompleteActivity extends AppCompatActivity {
         TextView score = findViewById(R.id.tv_score);
 
         winner.setText(winningTeamname + "\nwon the game\n");
-        score.setText("The final score was\n"+"Our Score: " + score_us + "\n"+winningTeamname+"'s Score: "+score_them);
+        score.setText("The final score was\n"+"Our Score: " + score_us + "\n"+"The Other Team" + "'s Score: "+score_them);
     }
 
 
-    private void onClick(View view) {
+    public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_continue:
-                goToHome();
+                launchWelcomeActivity();
                 break;
         }
     }
 
-    private void goToHome(){
+    private void launchWelcomeActivity(){
         Intent intent = new Intent(this, WelcomeActivity.class);
         startActivity(intent);
     }
