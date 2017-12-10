@@ -22,6 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:text="Game Tracker"
+            android:id="@+id/tv_game_tracker"
             android:textColor="@color/colorTextDark"
             android:textSize="24sp"
             android:textStyle="bold"/>

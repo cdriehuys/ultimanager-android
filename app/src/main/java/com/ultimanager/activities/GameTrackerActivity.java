@@ -64,7 +64,6 @@ public class GameTrackerActivity extends AppCompatActivity implements
                     savedInstanceState.getString(STATE_CURRENT_POSITION));
             gameId = savedInstanceState.getLong(STATE_GAME_ID, -1);
         }
-
         gameViewModel = ViewModelProviders.of(this).get(GameViewModel.class);
         gameViewModel.loadGame(gameId);
         gameViewModel.getGame().observe(this, game -> launchLineSelection());

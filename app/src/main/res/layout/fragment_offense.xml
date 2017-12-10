@@ -4,59 +4,82 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:orientation="vertical">
-
-    <LinearLayout
-        android:id="@+id/thrower_info"
+    <TextView
+        android:gravity="center"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:visibility="invisible">
+        android:layout_marginTop="8dp"
+        android:text="ON OFFENSE"
+        android:textColor="@color/colorTextDark"
+        android:textSize="24sp"/>
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+      <LinearLayout
+        android:id="@+id/thrower_info"
+          android:layout_marginLeft="30dp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:orientation="vertical"
+>
         <TextView
             android:gravity="center"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Thrower"
             android:textColor="@color/colorTextDark"
             android:textSize="24sp"/>
+        <RadioGroup
+            android:id="@+id/rg_thrower"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
 
-        <org.apmem.tools.layouts.FlowLayout
-            android:gravity="center"
-            android:id="@+id/thrower_buttons"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent" />
-    </LinearLayout>
 
-    <LinearLayout
-        android:gravity="center"
-        android:id="@+id/receiver_info"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:visibility="invisible">
 
-        <TextView
-            android:gravity="center"
+        </RadioGroup>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_receiverInfo"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="30dp"
+            android:layout_gravity="right"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:layout_marginTop="8dp"
-            android:text="Receiver"
-            android:textColor="@color/colorTextDark"
-            android:textSize="24sp"/>
+            android:orientation="vertical">
 
-        <org.apmem.tools.layouts.FlowLayout
-            android:id="@+id/receiver_buttons"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent" />
+            <TextView
+                android:gravity="center"
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Receiver"
+                android:textColor="@color/colorTextDark"
+                android:textSize="24sp"/>
+            <RadioGroup
+                android:id="@+id/rg_receiver"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+            </RadioGroup>
+        </LinearLayout>
     </LinearLayout>
+
+
 
     <LinearLayout
         android:id="@+id/throw_info"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:visibility="invisible">
+        android:orientation="vertical">
 
         <TextView
             android:gravity="center"
@@ -129,6 +152,5 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:layout_marginTop="16dp"
-        android:text="Record Throw"
-        android:visibility="invisible" />
+        android:text="Record Throw" />
 </LinearLayout>
