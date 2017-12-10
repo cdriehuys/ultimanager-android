@@ -45,10 +45,10 @@ public class OffenseFragment extends Fragment implements RadioButton.OnClickList
     private RadioButton goalRadio;
     private RadioButton otherRadio;
     private RadioButton turnoverRadio;
-    private ViewGroup receiverButtons;
+    private ViewGroup receiverRG;
     private ViewGroup receiverInfo;
     private ViewGroup throwInfo;
-    private ViewGroup throwerButtons;
+    private ViewGroup throwerRG;
     private ViewGroup throwerInfo;
 
     @Override
@@ -64,17 +64,9 @@ public class OffenseFragment extends Fragment implements RadioButton.OnClickList
 
     @Override
     public void onClick(View view) {
-        RadioButton radio = (RadioButton) view;
 
-        switch (radio.getId()) {
-            case R.id.radio_completion:
-            case R.id.radio_goal:
-            case R.id.radio_turnover:
-                if (radio.isChecked()) {
-                    recordThrowButton.setEnabled(true);
-                }
-                break;
-        }
+        enableRecordThrowButtonIfApplicable();
+
     }
 
     @Override
@@ -98,10 +90,9 @@ public class OffenseFragment extends Fragment implements RadioButton.OnClickList
         recordThrowButton = fragmentRoot.findViewById(R.id.btn_record_throw);
         recordThrowButton.setOnClickListener(view -> handleRecordThrow());
 
-        receiverButtons = fragmentRoot.findViewById(R.id.receiver_buttons);
-        receiverInfo = fragmentRoot.findViewById(R.id.receiver_info);
+        receiverRG = fragmentRoot.findViewById(R.id.rg_receiver);
         throwInfo = fragmentRoot.findViewById(R.id.throw_info);
-        throwerButtons = fragmentRoot.findViewById(R.id.thrower_buttons);
+        throwerRG = fragmentRoot.findViewById(R.id.rg_thrower);
         throwerInfo = fragmentRoot.findViewById(R.id.thrower_info);
 
         backhandRadio = fragmentRoot.findViewById(R.id.radio_backhand);
@@ -109,7 +100,6 @@ public class OffenseFragment extends Fragment implements RadioButton.OnClickList
         flickRadio = fragmentRoot.findViewById(R.id.radio_flick);
         goalRadio = fragmentRoot.findViewById(R.id.radio_goal);
         otherRadio = fragmentRoot.findViewById(R.id.radio_other);
-        turnoverRadio = fragmentRoot.findViewById(R.id.radio_turnover);
 
         // We only have to set click handlers for the results since there is no default option
         completionRadio.setOnClickListener(this);
@@ -153,58 +143,54 @@ public class OffenseFragment extends Fragment implements RadioButton.OnClickList
     }
 
     private void resetUI(List<Player> players) {
-        throwerInfo.setVisibility(View.VISIBLE);
-        receiverInfo.setVisibility(View.INVISIBLE);
-        throwInfo.setVisibility(View.INVISIBLE);
         recordThrowButton.setEnabled(false);
-        recordThrowButton.setVisibility(View.VISIBLE);
 
-        throwerButtons.removeAllViews();
+        throwerRG.removeAllViews();
         for (Player player : players) {
-            Button btn = new Button(getContext());
+            RadioButton btn = new RadioButton(getContext());
             btn.setLayoutParams(
                     new LinearLayout.LayoutParams(
                             ViewGroup.LayoutParams.WRAP_CONTENT,
                             ViewGroup.LayoutParams.WRAP_CONTENT));
             btn.setText(getString(R.string.player_with_number, player.name, player.number));
 
-            btn.setOnClickListener(view -> {
-                Button b = (Button) view;
-                SpannableString spanString = new SpannableString(b.getText());
-                spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
-                b.setText(spanString);
+            btn.setOnClickListener(view -> setThrower(player));
 
-                disableAllInView(throwerButtons);
-                receiverInfo.setVisibility(View.VISIBLE);
-
-                thrower = player;
-            });
-
-            throwerButtons.addView(btn);
+            throwerRG.addView(btn);
         }
 
-        receiverButtons.removeAllViews();
+        receiverRG.removeAllViews();
         for (Player player : players) {
-            Button btn = new Button(getContext());
+            RadioButton btn = new RadioButton(getContext());
             btn.setLayoutParams(
                     new LinearLayout.LayoutParams(
                             ViewGroup.LayoutParams.WRAP_CONTENT,
                             ViewGroup.LayoutParams.WRAP_CONTENT));
             btn.setText(getString(R.string.player_with_number, player.name, player.number));
 
-            btn.setOnClickListener(view -> {
-                Button b = (Button) view;
-                SpannableString spanString = new SpannableString(b.getText());
-                spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
-                b.setText(spanString);
+            btn.setOnClickListener(view -> setReceiver(player));
 
-                disableAllInView(receiverButtons);
-                throwInfo.setVisibility(View.VISIBLE);
-
-                receiver = player;
-            });
-
-            receiverButtons.addView(btn);
+            receiverRG.addView(btn);
         }
     }
+    private void setThrower(Player p){
+        Log.v("TAG","Thrower set as " + p.name);
+        thrower = p;
+        enableRecordThrowButtonIfApplicable();
+    }
+    private void setReceiver(Player p) {
+        Log.v("TAG","receiver set as " + p.name);
+        receiver = p;
+        enableRecordThrowButtonIfApplicable();
+    }
+
+    private void enableRecordThrowButtonIfApplicable(){
+        if(receiver != null && thrower != null &&
+                (completionRadio.isChecked() ||
+                turnoverRadio.isChecked() ||
+                goalRadio.isChecked())){
+            recordThrowButton.setEnabled(true);
+        }
+    }
+
 }
