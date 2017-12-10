@@ -21,10 +21,11 @@ import com.ultimanager.models.Player;
 import com.ultimanager.models.Throw;
 import com.ultimanager.viewmodels.PlayerViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
-public class OffenseFragment extends Fragment implements RadioButton.OnClickListener {
+public class OffenseFragment extends Fragment {
     public final static String ARG_POINT_ID = "POINT_ID";
 
     public interface OnThrowListener {
@@ -34,8 +35,9 @@ public class OffenseFragment extends Fragment implements RadioButton.OnClickList
     private final static String TAG = OffenseFragment.class.getSimpleName();
 
     private Button recordThrowButton;
-    private OnThrowListener onThrowListener;
+    private List<Player> players;
     private long pointId;
+    private OnThrowListener onThrowListener;
     private Player receiver;
     private Player thrower;
     private PlayerViewModel playerViewModel;
@@ -46,10 +48,7 @@ public class OffenseFragment extends Fragment implements RadioButton.OnClickList
     private RadioButton otherRadio;
     private RadioButton turnoverRadio;
     private ViewGroup receiverRG;
-    private ViewGroup receiverInfo;
-    private ViewGroup throwInfo;
     private ViewGroup throwerRG;
-    private ViewGroup throwerInfo;
 
     @Override
     public void onAttach(Context context) {
@@ -63,13 +62,6 @@ public class OffenseFragment extends Fragment implements RadioButton.OnClickList
     }
 
     @Override
-    public void onClick(View view) {
-
-        enableRecordThrowButtonIfApplicable();
-
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -80,6 +72,8 @@ public class OffenseFragment extends Fragment implements RadioButton.OnClickList
         } else {
             Log.e(TAG, "Didn't receive a point ID from the parent activity.");
         }
+
+        players = new ArrayList<>();
     }
 
     @Nullable
@@ -91,31 +85,27 @@ public class OffenseFragment extends Fragment implements RadioButton.OnClickList
         recordThrowButton.setOnClickListener(view -> handleRecordThrow());
 
         receiverRG = fragmentRoot.findViewById(R.id.rg_receiver);
-        throwInfo = fragmentRoot.findViewById(R.id.throw_info);
         throwerRG = fragmentRoot.findViewById(R.id.rg_thrower);
-        throwerInfo = fragmentRoot.findViewById(R.id.thrower_info);
 
         backhandRadio = fragmentRoot.findViewById(R.id.radio_backhand);
         completionRadio = fragmentRoot.findViewById(R.id.radio_completion);
         flickRadio = fragmentRoot.findViewById(R.id.radio_flick);
         goalRadio = fragmentRoot.findViewById(R.id.radio_goal);
         otherRadio = fragmentRoot.findViewById(R.id.radio_other);
+        turnoverRadio = fragmentRoot.findViewById(R.id.radio_turnover);
 
         // We only have to set click handlers for the results since there is no default option
-        completionRadio.setOnClickListener(this);
-        goalRadio.setOnClickListener(this);
-        turnoverRadio.setOnClickListener(this);
+        completionRadio.setOnClickListener(view -> enableRecordThrowButtonIfApplicable());
+        goalRadio.setOnClickListener(view -> enableRecordThrowButtonIfApplicable());
+        turnoverRadio.setOnClickListener(view -> enableRecordThrowButtonIfApplicable());
 
         playerViewModel = ViewModelProviders.of(this).get(PlayerViewModel.class);
-        playerViewModel.getPlayersForPoint(pointId).observe(this, this::resetUI);
+        playerViewModel.getPlayersForPoint(pointId).observe(this, players -> {
+            this.players=players;
+            resetUI(players);
+        });
 
         return fragmentRoot;
-    }
-
-    private void disableAllInView(ViewGroup group) {
-        for (int i = 0; i < group.getChildCount(); i++) {
-            group.getChildAt(i).setEnabled(false);
-        }
     }
 
     private void handleRecordThrow() {
@@ -139,10 +129,16 @@ public class OffenseFragment extends Fragment implements RadioButton.OnClickList
 
         onThrowListener.onThrowRecorded(thrower, receiver, throwType, throwResult);
 
-        resetUI(playerViewModel.getPlayerList().getValue());
+        resetUI(players);
     }
 
     private void resetUI(List<Player> players) {
+        otherRadio.setChecked(true);
+
+        completionRadio.setChecked(true);
+        goalRadio.setChecked(false);
+        turnoverRadio.setChecked(false);
+
         recordThrowButton.setEnabled(false);
 
         throwerRG.removeAllViews();
@@ -173,6 +169,7 @@ public class OffenseFragment extends Fragment implements RadioButton.OnClickList
             receiverRG.addView(btn);
         }
     }
+
     private void setThrower(Player p){
         Log.v("TAG","Thrower set as " + p.name);
         thrower = p;
