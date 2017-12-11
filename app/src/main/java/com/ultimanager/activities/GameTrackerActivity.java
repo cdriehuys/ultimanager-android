@@ -40,7 +40,7 @@ public class GameTrackerActivity extends AppCompatActivity implements
     public final static String EXTRA_OPP_TEAMNAME = "com.ultimanager.extras.OPP_TEAMNAME";
 
 
-    public final static int GAME_PLAYED_TO = 1;
+    public final static int GAME_PLAYED_TO = 11;
 
     private final static String STATE_CURRENT_POSITION = "CURRENT_POSITION";
     private final static String STATE_GAME_ID = "GAME_ID";
