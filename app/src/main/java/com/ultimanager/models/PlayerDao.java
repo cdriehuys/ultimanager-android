@@ -18,6 +18,32 @@ import java.util.List;
 @Dao
 public interface PlayerDao {
 
+
+    // number of throws
+    @Query("SELECT COUNT(*) FROM Throw " +
+           "LEFT JOIN Player ON Throw.thrower_id = Player.id " +
+           "WHERE Player.id = :id")
+    int getPlayerThrowsStat(long id);
+
+    // number of Turns
+    @Query("SELECT COUNT(*) FROM Throw " +
+            "LEFT JOIN Player ON Throw.thrower_id = Player.id " +
+            "WHERE Player.id = :id" +
+                " AND Throw.result = 'TURN'")
+    int getPlayerTurnsStat(long id);
+
+    // number of Points player played
+    @Query("SELECT COUNT(*) FROM PointPlayer " +
+            "LEFT JOIN Player ON PointPlayer.player_id = Player.id " +
+            "WHERE Player.id = :id")
+    int getPlayerPointsPlayedStat(long id);
+
+    // number of games
+    @Query("SELECT COUNT(*) FROM Game")
+    int getTotalPointsPlayedStat();
+
+
+
     /**
      * List all the players in the database.
      *
@@ -31,6 +57,7 @@ public interface PlayerDao {
            "JOIN Player ON PointPlayer.player_id = Player.id " +
            "WHERE Point.id = :pointId")
     LiveData<List<Player>> getPlayersForPoint(long pointId);
+
 
     /**
      * Get a player by ID.

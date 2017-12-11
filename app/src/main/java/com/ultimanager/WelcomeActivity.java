@@ -1,5 +1,6 @@
 package com.ultimanager;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -7,11 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ultimanager.activities.GameAddActivity;
 import com.ultimanager.activities.GameListActivity;
 import com.ultimanager.activities.PlayerListActivity;
 import com.ultimanager.activities.SetTeamnameActivity;
+import com.ultimanager.viewmodels.PlayerViewModel;
 
 
 /**
@@ -39,6 +42,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 launchNewGameActivity();
                 break;
             case R.id.btn_view_stats:
+                launchPlayerList();
                 break;
             case R.id.btn_teamname:
                 launchSetTeamnameActivity();
@@ -60,8 +64,16 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void launchNewGameActivity() {
-        Intent intent = new Intent(this, GameAddActivity.class);
-        startActivity(intent);
+        PlayerViewModel playerViewModel = ViewModelProviders.of(this).get(PlayerViewModel.class);
+        playerViewModel.getPlayerList().observe(this, players -> {
+            if (players.size() >= 7) {
+                Intent intent = new Intent(this, GameAddActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "You need at least 7 players on your roster.", Toast.LENGTH_SHORT).show();
+            }
+
+        });
     }
 
     private void launchPlayerList() {
@@ -73,6 +85,7 @@ public class WelcomeActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SetTeamnameActivity.class);
         startActivity(intent);
     }
+
 
     private String getTeamnameText(){
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);

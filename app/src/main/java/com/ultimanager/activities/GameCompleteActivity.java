@@ -54,7 +54,7 @@ public class GameCompleteActivity extends AppCompatActivity {
         TextView score = findViewById(R.id.tv_score);
 
         winner.setText(winningTeamname + "\nwon the game\n");
-        score.setText("The final score was\n"+homeTeamName+"'s Score: " + score_us + "\n" + otherTeamName + "'s Score: "+score_them);
+        score.setText("The final score was\n" + homeTeamName + "'s Score: " + score_us + "\n" + otherTeamName + "'s Score: "+score_them);
     }
 
 

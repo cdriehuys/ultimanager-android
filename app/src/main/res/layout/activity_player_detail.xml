@@ -20,11 +20,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="16sp"/>
-    <TextView
-        android:gravity="left"
-        android:id="@+id/tv_sample_player_stats"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"/>
+    <LinearLayout
+        android:id="@+id/ll_stat_holder"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </LinearLayout>
 
 </LinearLayout>
