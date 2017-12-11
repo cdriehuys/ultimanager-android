@@ -19,7 +19,7 @@
     <string name="use_line">Use Line</string>
     <string name="view_stats">View Stats</string>
     <string name="welcome">Welcome</string>
-    <string name="welcome_message">UltiManager allows you to record statistics for a new game, or view the results of previous games.</string>
+    <string name="welcome_message">UltiManager allows you to record statistics for a new game, or view the results of previous games. These games are played to 11 points.</string>
     <string name="throwaway">Throwaway</string>
     <string name="they_scored">They Scored</string>
 </resources>
